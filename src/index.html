@@ -3,527 +3,1116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LuxDrive Travel — Premium Travel Experience</title>
-  <meta name="description" content="Layanan travel mobil mewah dengan rute terbaik di Indonesia. Pilih destinasi, booking langsung, dan nikmati kemudahan perjalanan bersama LuxDrive Travel." />
+  <title>Velora Travel — Perjalanan Antarkota Eksklusif</title>
+  <meta name="description" content="Velora Travel melayani perjalanan antarkota privat, nyaman, dan berkelas dengan armada premium dan sopir profesional berstandar eksekutif." />
   
-  <!-- Google Fonts: Red Hat Display -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&display=swap" rel="stylesheet" />
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES — Palet Senja & Glassmorphism
+       ============================================================ */
+    :root {
+      --bg-deep:         #070913;
+      --bg-navy:         #0c1020;
+      --bg-purple:       #191630;
+      --card-bg:         rgba(15, 18, 35, 0.68);
+      --card-hover:      rgba(22, 28, 54, 0.82);
+      --card-border:     rgba(217, 165, 102, 0.22);
+      --card-border-glow:rgba(217, 165, 102, 0.45);
+      
+      --gold:            #d9a566;
+      --gold-light:      #f0caa0;
+      --gold-dark:       #a6783d;
+      --gold-glow:       rgba(217, 165, 102, 0.28);
+      
+      --text-white:      #f9f7f4;
+      --text-muted:      #b8b5cb;
+      --text-dim:        #79768f;
+      
+      --font-title:      'Playfair Display', Georgia, serif;
+      --font-body:       'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      
+      --radius-sm:       12px;
+      --radius-md:       20px;
+      --radius-lg:       28px;
+      --radius-pill:     999px;
+      --transition:      0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-deep:     #0d1124;
+        --bg-navy:     #131a36;
+        --card-bg:     rgba(19, 26, 54, 0.72);
+        --text-white:  #ffffff;
+      }
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-deep);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.65;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      color: var(--text-white);
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); }
+    h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); text-align: center; margin-bottom: 0.6rem; }
+    h3 { font-size: 1.4rem; }
+
+    .gold-text {
+      color: var(--gold);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Containers */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 20;
+    }
+
+    section {
+      padding: 100px 0 140px;
+      position: relative;
+      z-index: 20;
+    }
+
+    /* ============================================================
+       PARALLAX BACKGROUND & SCENE (Matahari, Gunung, Jalan)
+       ============================================================ */
+    .parallax-stage {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Gradient Langit Senja */
+    .sky-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #070913 0%,
+        #0f1429 25%,
+        #1d193d 50%,
+        #3d2146 72%,
+        #703c4f 88%,
+        #241b2e 100%
+      );
+      opacity: 0.95;
+    }
+
+    /* Matahari Senja */
+    .dusk-sun {
+      position: absolute;
+      bottom: 22vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(240, 202, 160, 0.45) 0%,
+        rgba(217, 165, 102, 0.25) 30%,
+        rgba(166, 120, 61, 0.08) 60%,
+        transparent 80%
+      );
+      filter: blur(12px);
+      transition: transform 0.1s linear;
+    }
+
+    /* SVG Lapisan Gunung 1 (Jauh) */
+    .mountain-layer-1 {
+      position: absolute;
+      bottom: 15vh;
+      left: 0;
+      width: 100%;
+      height: 28vh;
+      fill: #14162e;
+      opacity: 0.65;
+    }
+
+    /* SVG Lapisan Gunung 2 (Menengah) */
+    .mountain-layer-2 {
+      position: absolute;
+      bottom: 8vh;
+      left: 0;
+      width: 100%;
+      height: 24vh;
+      fill: #101224;
+      opacity: 0.85;
+    }
+
+    /* SVG Lapisan Gunung 3 (Dekat) */
+    .mountain-layer-3 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 18vh;
+      fill: #090b17;
+    }
+
+    /* Jalan Miring dengan Marka Emas */
+    .road-perspective {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 900px;
+      height: 14vh;
+      background: linear-gradient(180deg, rgba(16, 20, 38, 0.3) 0%, #06070e 100%);
+      clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+      border-top: 1px solid rgba(217, 165, 102, 0.15);
+    }
+
+    .road-lane-stripes {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 6px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        180deg,
+        var(--gold) 0px,
+        var(--gold) 24px,
+        transparent 24px,
+        transparent 56px
+      );
+      opacity: 0.6;
+    }
+
+    /* ============================================================
+       MOBIL 3D BERPUTAR (Fixed di tengah-bawah)
+       ============================================================ */
+    .car-viewport {
+      position: fixed;
+      bottom: 2.5vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 440px;
+      height: 190px;
+      z-index: 10;
+      pointer-events: none;
+      perspective: 1100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .car-3d-stage {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.08s ease-out;
+      will-change: transform;
+    }
+
+    /* Lapisan Salinan Mobil untuk Volume 3D */
+    .car-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: visible;
+    }
+
+    .car-layer-back {
+      transform: translateZ(-16px);
+      filter: brightness(0.55) blur(1px);
+      opacity: 0.8;
+    }
+    .car-layer-midback {
+      transform: translateZ(-8px);
+      filter: brightness(0.75);
+      opacity: 0.9;
+    }
+    .car-layer-main {
+      transform: translateZ(0px);
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.85));
+    }
+    .car-layer-midfront {
+      transform: translateZ(8px);
+      opacity: 0.35;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* Roda Berputar */
+    .car-wheel {
+      transform-origin: center;
+      transition: transform 0.05s linear;
+    }
+
+    /* ============================================================
+       NAVBAR (Glassmorphism Tetap di Atas)
+       ============================================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.1rem 0;
+      background: rgba(7, 9, 19, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(217, 165, 102, 0.15);
+      transition: all var(--transition);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: var(--text-white);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      color: #070913;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 15px var(--gold-glow);
+    }
+
+    .nav-logo span span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.3rem 0.5rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-link {
+      padding: 0.5rem 1.1rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-radius: var(--radius-pill);
+      transition: all var(--transition);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--gold-light);
+      background: rgba(217, 165, 102, 0.12);
+    }
+
+    /* Buttons (Mewah & Hangat) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #090b14;
+      font-weight: 700;
+      box-shadow: 0 4px 20px var(--gold-glow);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(217, 165, 102, 0.45);
+      background: linear-gradient(135deg, #f7d8b5, var(--gold-light));
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-white);
+      border: 1px solid rgba(217, 165, 102, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(217, 165, 102, 0.15);
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      color: var(--gold-light);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    /* ============================================================
+       HERO SECTION (Teks di Atas, Mobil di Bawah)
+       ============================================================ */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 150px;
+      padding-bottom: 220px; /* Ruang lega agar tidak menimpa mobil */
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.1rem;
+      background: rgba(217, 165, 102, 0.1);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-pill);
+      color: var(--gold-light);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      max-width: 860px;
+      margin: 0 auto 1.2rem;
+    }
+
+    .hero p {
+      max-width: 580px;
+      margin: 0 auto 2.4rem;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       KARTU GLASSMORPHISM (Armada, Rute, Form)
+       ============================================================ */
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-md);
+      padding: 2.2rem;
+      transition: all var(--transition);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+    }
+
+    .glass-card:hover {
+      background: var(--card-hover);
+      border-color: var(--card-border-glow);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(217, 165, 102, 0.15);
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      font-size: 1.05rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Armada Card */
+    .armada-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .armada-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .armada-pax {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      margin-bottom: 1.2rem;
+    }
+
+    .armada-features {
+      margin: 1.2rem 0 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex-grow: 1;
+    }
+
+    .armada-features li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .armada-features li i {
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    /* Rute Card */
+    .rute-card {
+      text-align: center;
+    }
+
+    .rute-route {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 0.8rem;
+    }
+
+    .rute-duration {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .rute-price {
+      font-size: 1.7rem;
+      font-family: var(--font-title);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .rute-price small {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       FORM PEMESANAN ELEGAN (Wajib DP 50%, Tanggal, WA)
+       ============================================================ */
+    .booking-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      background: rgba(8, 10, 20, 0.7);
+      border: 1px solid rgba(217, 165, 102, 0.25);
+      border-radius: var(--radius-sm);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(217, 165, 102, 0.25);
+      background: rgba(14, 18, 36, 0.9);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(217, 165, 102, 0.15);
+      padding: 50px 0 35px;
+      text-align: center;
+      position: relative;
+      z-index: 20;
+      background: #05060d;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+    }
+
+    footer a { color: var(--gold); }
+
+    /* ============================================================
+       RESPONSIVE & ACCESSIBILITY
+       ============================================================ */
+    @media (max-width: 768px) {
+      .car-viewport {
+        width: 320px;
+        height: 140px;
+        bottom: 1.5vh;
+      }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }
+      .hero { padding-top: 120px; padding-bottom: 180px; }
+      section { padding: 70px 0 100px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .car-3d-stage, .car-wheel, .mountain-layer-1, .mountain-layer-2, .mountain-layer-3, .dusk-sun {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ==================== NAVBAR ==================== -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo" aria-label="LuxDrive Travel">
-        <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
-        <span>LuxDrive <span>Travel</span></span>
-      </a>
+  <!-- ==================== PARALLAX STAGE ==================== -->
+  <div class="parallax-stage" aria-hidden="true">
+    <div class="sky-gradient"></div>
 
-      <!-- MENU UTAMA SEJAJAR -->
-      <ul class="nav-menu" id="navMenu" role="menubar">
-        <li role="none"><a href="index.html" class="nav-link active" role="menuitem"><i class="fas fa-home"></i> Beranda</a></li>
-        <li role="none"><a href="#destinasi" class="nav-link" role="menuitem"><i class="fas fa-compass"></i> Destinasi</a></li>
-        <li role="none"><a href="#armada" class="nav-link" role="menuitem"><i class="fas fa-car"></i> Armada</a></li>
-        <li role="none"><a href="order.html" class="nav-link" role="menuitem"><i class="fas fa-ticket-alt"></i> Order</a></li>
-        <li role="none"><a href="tentang kami.html" class="nav-link" role="menuitem"><i class="fas fa-users"></i> Tentang Kami</a></li>
-      </ul>
+    <!-- Matahari Senja -->
+    <div class="dusk-sun" id="duskSun"></div>
 
-      <div style="display: flex; align-items: center; gap: 0.8rem;">
-        <a href="order.html" class="btn btn-primary btn-sm" style="display: none;">Pesan</a>
-        <button class="nav-hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+    <!-- Gunung Lapis 1 (Jauh) -->
+    <svg class="mountain-layer-1" id="mount1" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,192L60,181.3C120,171,240,149,360,165.3C480,181,600,235,720,229.3C840,224,960,160,1080,149.3C1200,139,1320,181,1380,202.7L1440,224L1440,320L0,320Z"></path>
+    </svg>
+
+    <!-- Gunung Lapis 2 (Menengah) -->
+    <svg class="mountain-layer-2" id="mount2" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,128L80,149.3C160,171,320,213,480,197.3C640,181,800,107,960,117.3C1120,128,1280,224,1360,272L1440,320L0,320Z"></path>
+    </svg>
+
+    <!-- Gunung Lapis 3 (Dekat) -->
+    <svg class="mountain-layer-3" id="mount3" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,224L100,208C200,192,400,160,600,176C800,192,1000,256,1200,240L1440,224L1440,320L0,320Z"></path>
+    </svg>
+
+    <!-- Jalan dengan Marka Emas -->
+    <div class="road-perspective">
+      <div class="road-lane-stripes" id="roadStripes"></div>
     </div>
   </div>
-</nav>
 
-<!-- ==================== HERO SECTION ==================== -->
-<section class="hero" id="beranda">
-  <div class="container">
-    <div class="hero-grid">
-      
-      <!-- Left Content -->
-      <div class="hero-content">
-        <div class="hero-badge">
-          <i class="fas fa-bolt"></i> Premium Travel Application & Service
-        </div>
-        <h1>Let's Make Our <br><span class="accent">Trip So a Life</span></h1>
-        <p>Jelajahi keindahan Indonesia bersama armada eksklusif dan driver berpengalaman. Nikmati perjalanan privat yang aman, nyaman, dan terencana sempurna.</p>
-        
-        <!-- Filter Pills like reference image -->
-        <div class="hero-quick-filters">
-          <button class="filter-pill active"><i class="fas fa-arrow-right"></i> One Way</button>
-          <button class="filter-pill"><i class="fas fa-sync-alt"></i> Round Trip</button>
-          <button class="filter-pill"><i class="fas fa-shield-alt"></i> VIP Escort</button>
-        </div>
+  <!-- ==================== MOBIL 3D INTERAKTIF (Fixed Bawah) ==================== -->
+  <div class="car-viewport" id="carViewport">
+    <div class="car-3d-stage" id="carStage">
 
-        <div class="hero-actions" style="margin-top: 1.8rem;">
-          <a href="order.html" class="btn btn-primary btn-lg">
-            <i class="fas fa-ticket-alt"></i> Order Tiket Sekarang
-          </a>
-          <a href="#destinasi" class="btn btn-outline btn-lg">
-            <i class="fas fa-search-location"></i> Cari Destinasi
-          </a>
-        </div>
+      <!-- Salinan Lapisan Belakang (Depth Layer 1) -->
+      <div class="car-layer car-layer-back">
+        <svg viewBox="0 0 500 160" width="100%" height="100%">
+          <path d="M40,110 Q50,75 110,70 L170,68 Q210,35 290,35 L380,45 Q430,65 470,85 L475,115 Q470,125 435,125 L395,125 Q375,95 330,95 Q285,95 265,125 L165,125 Q145,95 100,95 Q55,95 40,125 Z" fill="#090b16"/>
+        </svg>
       </div>
 
-      <!-- Right App Mockup Preview (Matches Reference UI) -->
-      <div class="hero-mockup-wrapper">
-        <div class="phone-mockup">
-          <div class="phone-header">
-            <div class="phone-user">
-              <div class="phone-avatar">LK</div>
-              <div>
-                <div style="font-weight: 800; font-size: 0.85rem; color: #fff;">LuxDrive Member</div>
-                <div style="font-size: 0.72rem; color: var(--gray-mid);">VIP Travel Pass</div>
-              </div>
-            </div>
-            <div style="color: var(--brand); font-size: 1.1rem;"><i class="fas fa-bell"></i></div>
-          </div>
+      <!-- Salinan Lapisan Tengah (Depth Layer 2) -->
+      <div class="car-layer car-layer-midback">
+        <svg viewBox="0 0 500 160" width="100%" height="100%">
+          <path d="M40,110 Q50,75 110,70 L170,68 Q210,35 290,35 L380,45 Q430,65 470,85 L475,115 Q470,125 435,125 L395,125 Q375,95 330,95 Q285,95 265,125 L165,125 Q145,95 100,95 Q55,95 40,125 Z" fill="#13172e"/>
+        </svg>
+      </div>
 
-          <!-- In-App Banner Card -->
-          <div class="phone-banner">
-            <h4>Let's Make Our<br>Life so a Life</h4>
-            <p>Jadwalkan perjalanan liburan terbaik Anda minggu ini.</p>
-            <a href="order.html" class="btn-mini">Find Trip <i class="fas fa-arrow-right"></i></a>
-          </div>
+      <!-- Lapisan Utama Mobil (Utama + Roda) -->
+      <div class="car-layer car-layer-main">
+        <svg viewBox="0 0 500 160" width="100%" height="100%">
+          <defs>
+            <!-- Gradient Bodi Mobil Senja -->
+            <linearGradient id="carBodyGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#1b1d36"/>
+              <stop offset="50%" stop-color="#28224d"/>
+              <stop offset="100%" stop-color="#17182e"/>
+            </linearGradient>
+            <!-- Highlight Emas Mobil -->
+            <linearGradient id="goldTrim" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f0caa0"/>
+              <stop offset="50%" stop-color="#d9a566"/>
+              <stop offset="100%" stop-color="#a6783d"/>
+            </linearGradient>
+            <!-- Kaca Refleksi Senja -->
+            <linearGradient id="windowGlass" x1="0%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" stop-color="#d9a566" stop-opacity="0.4"/>
+              <stop offset="60%" stop-color="#1e183b" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#0b0e1d" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
 
-          <!-- Boarding Pass Mockup -->
-          <div class="mockup-pass">
-            <div style="font-size: 0.7rem; color: var(--gray-mid); text-transform: uppercase; margin-bottom: 0.3rem;">Boarding Pass Preview</div>
-            <div class="mockup-pass-row">
-              <div>
-                <div class="mockup-pass-code">JKT</div>
-                <div style="font-size: 0.75rem; color: var(--gray-light);">Jakarta</div>
-              </div>
-              <div style="color: var(--brand); font-size: 1.2rem;"><i class="fas fa-car-side"></i></div>
-              <div style="text-align: right;">
-                <div class="mockup-pass-code">DPS</div>
-                <div style="font-size: 0.75rem; color: var(--gray-light);">Bali Trip</div>
-              </div>
-            </div>
+          <!-- Bodi Eksekutif Sedan -->
+          <path d="M35,115 Q45,78 110,72 L175,70 Q215,36 295,36 L375,44 Q435,65 472,88 L478,118 Q472,126 435,126 L395,126 Q375,95 330,95 Q285,95 265,126 L165,126 Q145,95 100,95 Q55,95 38,126 Z" fill="url(#carBodyGrad)" stroke="rgba(217,165,102,0.4)" stroke-width="1.5"/>
 
-            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-top: 0.8rem; border-top: 1px dashed var(--dark-border); padding-top: 0.6rem;">
-              <span>DP 50% Required</span>
-              <span style="color: var(--brand); font-weight: 800;">Rp 1.250.000</span>
-            </div>
+          <!-- Garis Karakter Emas (Trim) -->
+          <path d="M42,95 L175,92 L380,80 L465,96" stroke="url(#goldTrim)" stroke-width="2" fill="none" opacity="0.85"/>
 
-            <!-- Simulated Barcode -->
-            <div class="mockup-barcode">
-              <div class="barcode-bar w-2"></div>
-              <div class="barcode-bar"></div>
-              <div class="barcode-bar w-3"></div>
-              <div class="barcode-bar"></div>
-              <div class="barcode-bar w-2"></div>
-              <div class="barcode-bar"></div>
-              <div class="barcode-bar w-3"></div>
-              <div class="barcode-bar"></div>
-              <div class="barcode-bar w-2"></div>
-              <div class="barcode-bar"></div>
-              <div class="barcode-bar w-2"></div>
-            </div>
-          </div>
+          <!-- Kaca Jendela Depan & Samping -->
+          <path d="M185,68 L225,44 L288,44 L288,68 Z" fill="url(#windowGlass)" stroke="rgba(217,165,102,0.3)"/>
+          <path d="M296,44 L365,50 Q410,68 425,68 L296,68 Z" fill="url(#windowGlass)" stroke="rgba(217,165,102,0.3)"/>
 
-        </div>
+          <!-- Lampu Depan (Warm Gold Glow) -->
+          <polygon points="468,88 478,94 466,102" fill="#f0caa0" filter="drop-shadow(0 0 8px #d9a566)"/>
+          <!-- Lampu Belakang (Merah Senja) -->
+          <rect x="34" y="94" width="8" height="14" rx="2" fill="#e65a5a" filter="drop-shadow(0 0 6px #e65a5a)"/>
+
+          <!-- Roda Depan (Wheel Front) -->
+          <g id="wheelFront" class="car-wheel" style="transform-origin: 330px 125px;">
+            <circle cx="330" cy="125" r="28" fill="#060810" stroke="url(#goldTrim)" stroke-width="2"/>
+            <circle cx="330" cy="125" r="16" fill="#181c30" stroke="#d9a566" stroke-width="1.5"/>
+            <!-- Velg Spoke -->
+            <line x1="330" y1="100" x2="330" y2="150" stroke="#d9a566" stroke-width="1.5"/>
+            <line x1="305" y1="125" x2="355" y2="125" stroke="#d9a566" stroke-width="1.5"/>
+            <circle cx="330" cy="125" r="5" fill="#f0caa0"/>
+          </g>
+
+          <!-- Roda Belakang (Wheel Back) -->
+          <g id="wheelBack" class="car-wheel" style="transform-origin: 100px 125px;">
+            <circle cx="100" cy="125" r="28" fill="#060810" stroke="url(#goldTrim)" stroke-width="2"/>
+            <circle cx="100" cy="125" r="16" fill="#181c30" stroke="#d9a566" stroke-width="1.5"/>
+            <!-- Velg Spoke -->
+            <line x1="100" y1="100" x2="100" y2="150" stroke="#d9a566" stroke-width="1.5"/>
+            <line x1="75" y1="125" x2="125" y2="125" stroke="#d9a566" stroke-width="1.5"/>
+            <circle cx="100" cy="125" r="5" fill="#f0caa0"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Lapisan Kilap Depan (Specular Highlight Layer) -->
+      <div class="car-layer car-layer-midfront">
+        <svg viewBox="0 0 500 160" width="100%" height="100%">
+          <path d="M120,72 L280,38 L360,46 Q410,65 440,85" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
+        </svg>
       </div>
 
     </div>
   </div>
-</section>
 
-<!-- ==================== STATS ==================== -->
-<section class="stats-section">
-  <div class="container">
-    <div class="stats-grid stagger-children">
-      <div class="stat-item reveal">
-        <div class="stat-number" data-target="500">0</div>
-        <div class="stat-label"><i class="fas fa-road text-brand"></i> Perjalanan Sukses</div>
-      </div>
-      <div class="stat-item reveal">
-        <div class="stat-number" data-target="200">0</div>
-        <div class="stat-label"><i class="fas fa-users text-brand"></i> Pelanggan Puas</div>
-      </div>
-      <div class="stat-item reveal">
-        <div class="stat-number" data-target="50">0</div>
-        <div class="stat-label"><i class="fas fa-map-marker-alt text-brand"></i> Destinasi Wisata</div>
-      </div>
-      <div class="stat-item reveal">
-        <div class="stat-number">24/7</div>
-        <div class="stat-label"><i class="fas fa-headset text-brand"></i> Support Responsif</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== DESTINASI ==================== -->
-<section id="destinasi">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label"><i class="fas fa-compass"></i> Popular Destination</span>
-      <h2>Destinasi <span class="text-brand">Pilihan Terbaik</span></h2>
-      <p>Jelajahi tempat-tempat paling ikonik di Indonesia dengan paket private trip berfasilitas lengkap.</p>
-      <div class="divider"></div>
-    </div>
-
-    <div class="cards-grid stagger-children">
-
-      <!-- Bali -->
-      <article class="card reveal">
-        <div class="card-img dest-bali">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🏖️</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">3 Hari 2 Malam</div>
-          <h3 class="card-title">Bali Island</h3>
-          <p class="card-desc">Keindahan pantai selatan, Tanah Lot, Ubud, hingga beach club eksklusif dengan kenyamanan armada privat.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 2.500.000</div>
-              <div class="price-dur">DP 50%: Rp 1.250.000</div>
-            </div>
-            <a href="order.html?dest=bali" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Yogyakarta -->
-      <article class="card reveal">
-        <div class="card-img dest-yogya">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🏛️</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">2 Hari 1 Malam</div>
-          <h3 class="card-title">Yogyakarta Heritage</h3>
-          <p class="card-desc">Jelajahi kemegahan Candi Borobudur, Prambanan, Malioboro, dan kuliner khas keraton yang istimewa.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 1.800.000</div>
-              <div class="price-dur">DP 50%: Rp 900.000</div>
-            </div>
-            <a href="order.html?dest=yogyakarta" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Bromo -->
-      <article class="card reveal">
-        <div class="card-img dest-bromo">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🌋</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">2 Hari 1 Malam</div>
-          <h3 class="card-title">Bromo Sunrise Trip</h3>
-          <p class="card-desc">Menyaksikan golden sunrise Penanjakan, kawah Bromo, dan petualangan melintasi pasir berbisik.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 1.500.000</div>
-              <div class="price-dur">DP 50%: Rp 750.000</div>
-            </div>
-            <a href="order.html?dest=bromo" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Raja Ampat -->
-      <article class="card reveal">
-        <div class="card-img dest-raja">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🤿</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">5 Hari 4 Malam</div>
-          <h3 class="card-title">Raja Ampat Paradise</h3>
-          <p class="card-desc">Gugusan pulau karang eksotis dan surga terumbu karang terbaik di dunia dengan pemandangan spektakuler.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 4.500.000</div>
-              <div class="price-dur">DP 50%: Rp 2.250.000</div>
-            </div>
-            <a href="order.html?dest=raja_ampat" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Labuan Bajo -->
-      <article class="card reveal">
-        <div class="card-img dest-labuan">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🦎</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">4 Hari 3 Malam</div>
-          <h3 class="card-title">Labuan Bajo Komodo</h3>
-          <p class="card-desc">Petualangan melihat habitat kadal purba Komodo, Pink Beach, dan tracking panorama Pulau Padar.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 3.500.000</div>
-              <div class="price-dur">DP 50%: Rp 1.750.000</div>
-            </div>
-            <a href="order.html?dest=labuan_bajo" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Lombok -->
-      <article class="card reveal">
-        <div class="card-img dest-lombok">
-          <span style="font-size:3.5rem;position:relative;z-index:1;">🌴</span>
-        </div>
-        <div class="card-body">
-          <div class="price-badge">3 Hari 2 Malam</div>
-          <h3 class="card-title">Lombok & Gili Islands</h3>
-          <p class="card-desc">Keindahan pantai Senggigi, Mandalika, dan keheningan suasana eksotis di Gili Trawangan & Meno.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">Rp 2.000.000</div>
-              <div class="price-dur">DP 50%: Rp 1.000.000</div>
-            </div>
-            <a href="order.html?dest=lombok" class="btn btn-primary btn-sm">Pesan</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ==================== ARMADA ==================== -->
-<section id="armada" style="background: var(--dark-card);">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label"><i class="fas fa-car"></i> Fleet Collection</span>
-      <h2>Pilihan <span class="text-brand">Armada Mobil</span></h2>
-      <p>Kendaraan terawat, selalu wangi, AC prima, dan siap mengantar perjalanan Anda dengan tenang.</p>
-      <div class="divider"></div>
-    </div>
-
-    <div class="cards-grid stagger-children">
-
-      <!-- Alphard -->
-      <article class="card reveal">
-        <div class="card-img vehicle-alphard">
-          <span style="font-size:4rem;position:relative;z-index:1;">🚗</span>
-        </div>
-        <div class="card-body">
-          <div class="vehicle-badge"><i class="fas fa-crown"></i> Luxury Class</div>
-          <h3 class="card-title">Toyota Alphard</h3>
-          <p class="card-desc">Kenyamanan eksekutif kelas utama. Dilengkapi captain seat elektrik, kabin hening, dan hiburan multimedia.</p>
-          <div class="vehicle-features">
-            <span class="feat-tag">6 Seat</span>
-            <span class="feat-tag">Captain Seat</span>
-            <span class="feat-tag">USB Charger</span>
-            <span class="feat-tag">Leather Interior</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">+Rp 350.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
-            </div>
-            <a href="order.html?armada=alphard" class="btn btn-secondary btn-sm">Pilih Mobil</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Hiace -->
-      <article class="card reveal">
-        <div class="card-img vehicle-hiace">
-          <span style="font-size:4rem;position:relative;z-index:1;">🚐</span>
-        </div>
-        <div class="card-body">
-          <div class="vehicle-badge"><i class="fas fa-users"></i> Group Class</div>
-          <h3 class="card-title">Hiace Commuter</h3>
-          <p class="card-desc">Pilihan utama wisata keluarga besar dan kantor. Kapasitas lega, suspensi empuk, dan bagasi yang luas.</p>
-          <div class="vehicle-features">
-            <span class="feat-tag">14 Seat</span>
-            <span class="feat-tag">Double Blower AC</span>
-            <span class="feat-tag">Bagasi Luas</span>
-            <span class="feat-tag">Reclining Seat</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">+Rp 500.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
-            </div>
-            <a href="order.html?armada=hiace" class="btn btn-secondary btn-sm">Pilih Mobil</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Fortuner -->
-      <article class="card reveal">
-        <div class="card-img vehicle-fortuner">
-          <span style="font-size:4rem;position:relative;z-index:1;">🚙</span>
-        </div>
-        <div class="card-body">
-          <div class="vehicle-badge"><i class="fas fa-mountain"></i> Adventure Class</div>
-          <h3 class="card-title">Toyota Fortuner</h3>
-          <p class="card-desc">SUV bertenaga tinggi untuk rute menanjak dan pegunungan seperti Bromo atau jalur pantai tersembunyi.</p>
-          <div class="vehicle-features">
-            <span class="feat-tag">7 Seat</span>
-            <span class="feat-tag">4x4 Ready</span>
-            <span class="feat-tag">High Ground Clearance</span>
-            <span class="feat-tag">AC Double</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div class="price-main">+Rp 400.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
-            </div>
-            <a href="order.html?armada=fortuner" class="btn btn-secondary btn-sm">Pilih Mobil</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ==================== TESTIMONIALS ==================== -->
-<section class="testimonials-section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label"><i class="fas fa-star"></i> Reviews</span>
-      <h2>Pengalaman <span class="text-brand">Pelanggan Kami</span></h2>
-      <p>Kisah kepuasan perjalanan nyata dari para pelanggan setia LuxDrive Travel.</p>
-      <div class="divider"></div>
-    </div>
-
-    <div class="testimonials-grid stagger-children">
-      <div class="testimonial-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Pesan Alphard untuk trip liburan ke Bali sekeluarga. Driver tepat waktu, ramah, dan sangat paham jalur wisata favorit tanpa macet!"</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">AR</div>
-          <div>
-            <div class="author-name">Aulia Rahma</div>
-            <div class="author-loc">Jakarta • Bali Trip</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Sewa Hiace Commuter untuk acara kantor ke Jogja. Sangat nyaman, proses verifikasi DP cepat dan langsung diarahkan ke WA."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">BS</div>
-          <div>
-            <div class="author-name">Budi Santoso</div>
-            <div class="author-loc">Surabaya • Yogyakarta Trip</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Trip Bromo luar biasa! Fortuner-nya prima melibas tanjakan dan pasir. Pelayanan ramah bintang lima."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">CL</div>
-          <div>
-            <div class="author-name">Cindy Lestari</div>
-            <div class="author-loc">Malang • Bromo Trip</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== CTA SECTION ==================== -->
-<section class="cta-section">
-  <div class="container">
-    <span class="section-label"><i class="fas fa-ticket-alt"></i> Instant Booking</span>
-    <h2>Siap Menikmati Liburan <span class="text-brand">Tanpa Ribet?</span></h2>
-    <p>Pilih tanggal keberangkatan Anda, bayar DP 50% dengan aman, dan konfirmasi langsung ke WhatsApp customer service kami.</p>
-    <div class="cta-actions">
-      <a href="order.html" class="btn btn-primary btn-lg">
-        <i class="fas fa-ticket-alt"></i> Buka Menu Order
-      </a>
-      <a href="https://wa.me/62895629466956?text=Halo%20LuxDrive%2C%20saya%20ingin%20tanya%20seputar%20paket%20travel" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
-        <i class="fab fa-whatsapp text-brand"></i> Hubungi WhatsApp
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== FOOTER ==================== -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
         <a href="index.html" class="nav-logo">
-          <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
-          <span>LuxDrive <span>Travel</span></span>
+          <div class="nav-logo-icon"><i class="fas fa-gem"></i></div>
+          <span>Velora <span>Travel</span></span>
         </a>
-        <p>Solusi perjalanan darat premium dan wisata keluarga terbaik ke destinasi impian di seluruh Indonesia.</p>
-        <div class="social-links">
-          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://wa.me/62895629466956" target="_blank" rel="noopener" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+        <ul class="nav-menu" role="menubar">
+          <li><a href="#beranda" class="nav-link active">Beranda</a></li>
+          <li><a href="#armada" class="nav-link">Armada</a></li>
+          <li><a href="#rute" class="nav-link">Rute Populer</a></li>
+          <li><a href="order.html" class="nav-link">Form Order</a></li>
+          <li><a href="tentang kami.html" class="nav-link">Tentang Kami</a></li>
+        </ul>
+
+        <a href="order.html" class="btn btn-gold btn-sm">
+          <i class="fas fa-ticket-alt"></i> Pesan Tiket
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== 1. HERO SECTION ==================== -->
+  <section class="hero" id="beranda">
+    <div class="container">
+      <div class="hero-badge">
+        <i class="fas fa-crown"></i> Eksklusivitas Antarkota
+      </div>
+      <h1>Kemewahan Perjalanan <br><span class="gold-text">Di Setiap Kilometer</span></h1>
+      <p>Layanan perjalanan privat antarkota dengan kenyamanan kelas utama, ketepatan waktu prima, dan kehangatan keramahan khas Nusantara.</p>
+      
+      <div class="hero-cta">
+        <a href="#pemesanan" class="btn btn-gold">
+          <i class="fas fa-compass"></i> Mulai Perjalanan
+        </a>
+        <a href="order.html" class="btn btn-glass">
+          <i class="fas fa-calendar-check"></i> Booking Langsung
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. ARMADA SECTION ==================== -->
+  <section id="armada">
+    <div class="container">
+      <h2>Pilihan <span class="gold-text">Armada Eksklusif</span></h2>
+      <p class="section-desc">Kendaraan prima berpendingin optimal, interior terawat, dan suspensi lembut untuk perjalanan tanpa lelah.</p>
+
+      <div class="cards-grid">
+        <!-- Sedan Eksekutif -->
+        <div class="glass-card armada-card">
+          <div class="armada-tag">Executive Class</div>
+          <h3>Executive Sedan</h3>
+          <div class="armada-pax"><i class="fas fa-user-friends"></i> 3 - 4 Penumpang</div>
+          <p style="color:var(--text-muted);font-size:0.92rem;">Pilihan ideal perjalanan bisnis atau solo travel dengan privasi maksimal dan kabin kedap suara.</p>
+          <ul class="armada-features">
+            <li><i class="fas fa-check-circle"></i> Leather Captain Seat</li>
+            <li><i class="fas fa-check-circle"></i> High-Speed Wi-Fi & USB Charging</li>
+            <li><i class="fas fa-check-circle"></i> Air Purifier & Refreshment</li>
+          </ul>
+          <a href="order.html?armada=alphard" class="btn btn-glass btn-sm">Pilih Sedan</a>
+        </div>
+
+        <!-- Luxury SUV -->
+        <div class="glass-card armada-card" style="border-color: rgba(217, 165, 102, 0.45);">
+          <div class="armada-tag" style="color:var(--gold-light);"><i class="fas fa-star"></i> Most Popular</div>
+          <h3>Royal SUV</h3>
+          <div class="armada-pax"><i class="fas fa-users"></i> 6 - 7 Penumpang</div>
+          <p style="color:var(--text-muted);font-size:0.92rem;">Kombinasi ketangguhan dan kenyamanan aristokrat untuk menaklukkan rute tol maupun jalur wisata.</p>
+          <ul class="armada-features">
+            <li><i class="fas fa-check-circle"></i> Panoramic Sunroof</li>
+            <li><i class="fas fa-check-circle"></i> Multi-Zone Climate AC</li>
+            <li><i class="fas fa-check-circle"></i> Bagasi Lapang & Suspensi Udara</li>
+          </ul>
+          <a href="order.html?armada=fortuner" class="btn btn-gold btn-sm">Pilih SUV</a>
+        </div>
+
+        <!-- Premium MPV -->
+        <div class="glass-card armada-card">
+          <div class="armada-tag">Family & Group Class</div>
+          <h3>Grand MPV Hiace</h3>
+          <div class="armada-pax"><i class="fas fa-users-cog"></i> 10 - 14 Penumpang</div>
+          <p style="color:var(--text-muted);font-size:0.92rem;">Kenyamanan tanpa kompromi untuk keluarga besar dan rombongan eksekutif dalam perjalanan jauh.</p>
+          <ul class="armada-features">
+            <li><i class="fas fa-check-circle"></i> Reclining Plush Seats</li>
+            <li><i class="fas fa-check-circle"></i> In-Car Entertainment TV</li>
+            <li><i class="fas fa-check-circle"></i> Ruang Kaki Sangat Lega</li>
+          </ul>
+          <a href="order.html?armada=hiace" class="btn btn-glass btn-sm">Pilih MPV</a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="footer-col">
-        <h4>Menu Utama</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Beranda</a></li>
-          <li><a href="#destinasi">Destinasi</a></li>
-          <li><a href="#armada">Armada</a></li>
-          <li><a href="order.html">Order Tiket</a></li>
-          <li><a href="tentang kami.html">Tentang Kami</a></li>
-        </ul>
-      </div>
+  <!-- ==================== 3. RUTE POPULER ==================== -->
+  <section id="rute">
+    <div class="container">
+      <h2>Rute <span class="gold-text">Favorit Pilihan</span></h2>
+      <p class="section-desc">Koneksi antarkota dengan jalur tol terbaik dan waktu tempuh optimal.</p>
 
-      <div class="footer-col">
-        <h4>Destinasi Populer</h4>
-        <ul class="footer-links">
-          <li><a href="order.html?dest=bali">Bali</a></li>
-          <li><a href="order.html?dest=yogyakarta">Yogyakarta</a></li>
-          <li><a href="order.html?dest=bromo">Bromo</a></li>
-          <li><a href="order.html?dest=raja_ampat">Raja Ampat</a></li>
-          <li><a href="order.html?dest=labuan_bajo">Labuan Bajo</a></li>
-        </ul>
-      </div>
+      <div class="cards-grid">
+        <!-- Rute 1 -->
+        <div class="glass-card rute-card">
+          <div class="rute-route">
+            <span>Jakarta</span>
+            <i class="fas fa-long-arrow-alt-right" style="color:var(--gold);"></i>
+            <span>Bandung</span>
+          </div>
+          <div class="rute-duration"><i class="fas fa-clock"></i> Estimasi 2,5 Jam via Tol Cipularang</div>
+          <div class="rute-price">Rp 650.000 <small>/ mobil</small></div>
+          <a href="order.html?dest=yogyakarta" class="btn btn-glass btn-sm" style="width:100%;">Pesan Rute Ini</a>
+        </div>
 
-      <div class="footer-col">
-        <h4>Kontak Resmi</h4>
-        <ul class="footer-contact">
-          <li>
-            <i class="fab fa-whatsapp"></i>
-            <div>
-              <strong>WhatsApp CS:</strong><br>
-              <a href="https://wa.me/62895629466956" target="_blank" rel="noopener" style="color:var(--brand);">0895-6294-66956</a>
-            </div>
-          </li>
-          <li>
-            <i class="fas fa-envelope"></i>
-            <div>
-              <strong>Email:</strong><br>
-              info@luxdrivetravel.id
-            </div>
-          </li>
-          <li>
-            <i class="fas fa-map-marker-alt"></i>
-            <div>Jakarta Selatan, Indonesia</div>
-          </li>
-        </ul>
+        <!-- Rute 2 -->
+        <div class="glass-card rute-card" style="border-color: rgba(217, 165, 102, 0.45);">
+          <div class="rute-route">
+            <span>Jakarta</span>
+            <i class="fas fa-long-arrow-alt-right" style="color:var(--gold);"></i>
+            <span>Yogyakarta</span>
+          </div>
+          <div class="rute-duration"><i class="fas fa-clock"></i> Estimasi 7 Jam via Tol Trans Jawa</div>
+          <div class="rute-price">Rp 1.800.000 <small>/ mobil</small></div>
+          <a href="order.html?dest=yogyakarta" class="btn btn-gold btn-sm" style="width:100%;">Pesan Rute Ini</a>
+        </div>
+
+        <!-- Rute 3 -->
+        <div class="glass-card rute-card">
+          <div class="rute-route">
+            <span>Surabaya</span>
+            <i class="fas fa-long-arrow-alt-right" style="color:var(--gold);"></i>
+            <span>Malang / Bromo</span>
+          </div>
+          <div class="rute-duration"><i class="fas fa-clock"></i> Estimasi 2 Jam via Tol Pandaan</div>
+          <div class="rute-price">Rp 1.500.000 <small>/ mobil</small></div>
+          <a href="order.html?dest=bromo" class="btn btn-glass btn-sm" style="width:100%;">Pesan Rute Ini</a>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="footer-bottom">
-      <p>© 2024 <span>LuxDrive Travel</span>. All rights reserved.</p>
-      <p>Theme: Modern Dark Neo Style • <span style="color:var(--brand);">#E7F161</span></p>
+  <!-- ==================== 4. PEMESANAN CEPAT ==================== -->
+  <section id="pemesanan">
+    <div class="container">
+      <h2>Pemesanan <span class="gold-text">Cepat & Eksklusif</span></h2>
+      <p class="section-desc">Cek ketersediaan dan lanjutkan pemesanan resmi dengan jaminan verifikasi DP 50% aman.</p>
+
+      <div class="booking-wrapper">
+        <div class="glass-card">
+          <form id="quickBookingForm" onsubmit="handleQuickSubmit(event)">
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> Kota Asal (Dari)</label>
+                <input type="text" id="quickDari" class="form-control" placeholder="Contoh: Jakarta Selatan" required />
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-location-arrow" style="color:var(--gold);"></i> Kota Tujuan</label>
+                <input type="text" id="quickTujuan" class="form-control" placeholder="Contoh: Yogyakarta / Bandung" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label><i class="fas fa-calendar-alt" style="color:var(--gold);"></i> Tanggal Keberangkatan</label>
+                <input type="date" id="quickTanggal" class="form-control" required />
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-car" style="color:var(--gold);"></i> Pilihan Armada</label>
+                <select id="quickArmada" class="form-control" required>
+                  <option value="alphard">Executive Sedan / Alphard</option>
+                  <option value="fortuner">Royal SUV (Fortuner)</option>
+                  <option value="hiace">Grand MPV (Hiace Commuter)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="background:rgba(217,165,102,0.08);border:1px solid rgba(217,165,102,0.25);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--text-muted);line-height:1.45;">
+              <i class="fas fa-shield-alt" style="color:var(--gold);"></i>
+              Setiap pemesanan resmi mewajibkan <strong>pembayaran DP 50%</strong> dan bukti transfer langsung diverifikasi via WhatsApp resmi kami <strong>0895-6294-66956</strong>.
+            </div>
+
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+              <button type="submit" class="btn btn-gold" style="flex:1;">
+                <i class="fas fa-calculator"></i> Cek Harga & Lengkapi Order
+              </button>
+              <a href="order.html" class="btn btn-glass">
+                <i class="fas fa-file-invoice"></i> Formulir Lengkap
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
+  </section>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="container">
+      <div style="font-family:var(--font-title);font-size:1.5rem;color:var(--text-white);margin-bottom:0.5rem;">
+        Velora <span style="color:var(--gold);font-style:italic;">Travel</span>
+      </div>
+      <p style="color:var(--text-muted);max-width:500px;margin:0 auto 1.5rem;font-size:0.9rem;">
+        Layanan mobilitas antarkota premium dengan standar keselamatan dan kenyamanan tertinggi di Indonesia.
+      </p>
+      <p style="margin-bottom:0.5rem;">
+        Customer Service WhatsApp: <a href="https://wa.me/62895629466956" target="_blank" rel="noopener">0895-6294-66956</a>
+      </p>
+      <p>© 2024 Velora Travel. Semua hak dilindungi.</p>
+    </div>
+  </footer>
 
-<script src="../assets/js/main.js"></script>
+  <!-- ==================== JAVASCRIPT ANIMASI 3D & PARALLAX ==================== -->
+  <script>
+    (function initVeloraEffects() {
+      // Elements
+      const carStage   = document.getElementById('carStage');
+      const wheelFront = document.getElementById('wheelFront');
+      const wheelBack  = document.getElementById('wheelBack');
+      const duskSun    = document.getElementById('duskSun');
+      const mount1     = document.getElementById('mount1');
+      const mount2     = document.getElementById('mount2');
+      const mount3     = document.getElementById('mount3');
+      const roadStripes= document.getElementById('roadStripes');
+
+      // Set min date for quick booking
+      const qTgl = document.getElementById('quickTanggal');
+      if (qTgl) {
+        qTgl.min = new Date().toISOString().split('T')[0];
+        qTgl.value = qTgl.min;
+      }
+
+      // State
+      let scrollY = 0;
+      let mouseX  = 0;
+      let mouseY  = 0;
+      let targetMouseX = 0;
+      let targetMouseY = 0;
+      let isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Mouse listener (Desktop micro-reaction)
+      window.addEventListener('mousemove', (e) => {
+        if (window.innerWidth > 768 && !isReducedMotion) {
+          const cx = window.innerWidth / 2;
+          const cy = window.innerHeight / 2;
+          targetMouseX = (e.clientX - cx) / cx; // -1 to 1
+          targetMouseY = (e.clientY - cy) / cy; // -1 to 1
+        }
+      }, { passive: true });
+
+      // Scroll listener
+      window.addEventListener('scroll', () => {
+        scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      }, { passive: true });
+
+      // Animation Loop via requestAnimationFrame
+      function renderLoop() {
+        if (!isReducedMotion) {
+          const maxScroll = Math.max(
+            document.documentElement.scrollHeight - window.innerHeight,
+            1
+          );
+          // Progress from 0 (top) to 1 (bottom)
+          const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
+
+          // 1. 3D Car Rotation (-32° at top to +32° at bottom)
+          const rotateY = -32 + (progress * 64);
+          
+          // 2. Car Scale: slightly enlarges in the middle of scroll
+          const scale = 1 + (Math.sin(progress * Math.PI) * 0.16);
+
+          // Smooth mouse follow
+          mouseX += (targetMouseX - mouseX) * 0.08;
+          mouseY += (targetMouseY - mouseY) * 0.08;
+
+          const mouseRotX = -mouseY * 4;
+          const mouseRotY = mouseX * 6;
+
+          if (carStage) {
+            carStage.style.transform = `rotateX(${mouseRotX}deg) rotateY(${rotateY + mouseRotY}deg) scale(${scale})`;
+          }
+
+          // 3. Wheel rotation proportional to scroll distance
+          const wheelDeg = (scrollY * 1.8) % 360;
+          if (wheelFront) wheelFront.style.transform = `rotate(${wheelDeg}deg)`;
+          if (wheelBack)  wheelBack.style.transform  = `rotate(${wheelDeg}deg)`;
+
+          // 4. Parallax Background Layers
+          if (duskSun) {
+            duskSun.style.transform = `translateX(-50%) translateY(${scrollY * 0.18}px)`;
+          }
+          if (mount1) {
+            mount1.style.transform = `translateY(${scrollY * 0.14}px)`;
+          }
+          if (mount2) {
+            mount2.style.transform = `translateY(${scrollY * 0.25}px)`;
+          }
+          if (mount3) {
+            mount3.style.transform = `translateY(${scrollY * 0.38}px)`;
+          }
+
+          // 5. Road Stripes movement
+          if (roadStripes) {
+            const roadOffset = (scrollY * 0.75) % 56;
+            roadStripes.style.backgroundPosition = `0px ${roadOffset}px`;
+          }
+        }
+
+        requestAnimationFrame(renderLoop);
+      }
+
+      requestAnimationFrame(renderLoop);
+    })();
+
+    // Quick Submit Handler
+    function handleQuickSubmit(e) {
+      e.preventDefault();
+      const dari    = document.getElementById('quickDari')?.value || '';
+      const tujuan  = document.getElementById('quickTujuan')?.value || '';
+      const tanggal = document.getElementById('quickTanggal')?.value || '';
+      const armada  = document.getElementById('quickArmada')?.value || 'alphard';
+
+      // Redirect to full order page with params
+      window.location.href = `order.html?armada=${encodeURIComponent(armada)}&tgl=${encodeURIComponent(tanggal)}&dari=${encodeURIComponent(dari)}&tujuan=${encodeURIComponent(tujuan)}`;
+    }
+  </script>
 </body>
 </html>

@@ -1,27 +1,27 @@
 /* ============================================================
-   LuxDrive Travel — Neo Modern Travel Style
-   Style Guide Reference:
-   - Font: Red Hat Display
-   - Brand Color: #E7F161 (Neon Lime)
-   - Base Colors: #000000 (Pure Black), #131313 (Card Dark), #313131 (Border/Surface), #F7FAFF (White)
+   Velora Travel — Elegant Twilight Luxury Style
+   Style Reference:
+   - Palette: Navy gelap, ungu kebiruan, aksen emas (#d9a566)
+   - Fonts: Playfair Display (Titles), Inter (Body)
+   - Glassmorphism & warm luxury
    ============================================================ */
 
 /* ---------- CSS Variables ---------- */
 :root {
-  --brand:         #E7F161;
-  --brand-hover:   #d8e252;
-  --brand-glow:    rgba(231, 241, 97, 0.25);
-  --brand-soft:    rgba(231, 241, 97, 0.12);
-  --black:         #000000;
-  --dark-bg:       #080808;
-  --dark-card:     #131313;
-  --dark-surface:  #1b1b1b;
-  --dark-border:   #2a2a2a;
-  --dark-border-light: rgba(255, 255, 255, 0.08);
-  --white:         #F7FAFF;
-  --gray-light:    #D1D5DB;
-  --gray-mid:      #9CA3AF;
-  --gray-dark:     #4B5563;
+  --brand:         #d9a566;
+  --brand-hover:   #f0caa0;
+  --brand-glow:    rgba(217, 165, 102, 0.35);
+  --brand-soft:    rgba(217, 165, 102, 0.12);
+  --black:         #05060d;
+  --dark-bg:       #070913;
+  --dark-card:     rgba(15, 18, 35, 0.72);
+  --dark-surface:  #0f1429;
+  --dark-border:   rgba(217, 165, 102, 0.22);
+  --dark-border-light: rgba(217, 165, 102, 0.12);
+  --white:         #f9f7f4;
+  --gray-light:    #c4c1d7;
+  --gray-mid:      #8d8a9e;
+  --gray-dark:     #4d4a5e;
   --red-alert:     #FF4D4D;
   
   --radius-xs:     8px;
@@ -30,10 +30,11 @@
   --radius-lg:     28px;
   --radius-pill:   999px;
   
-  --font-main:     'Red Hat Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  --transition:    0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  --shadow-card:   0 12px 36px rgba(0, 0, 0, 0.65);
-  --shadow-neon:   0 0 25px rgba(231, 241, 97, 0.35);
+  --font-title:    'Playfair Display', Georgia, serif;
+  --font-main:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition:    0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-card:   0 15px 35px rgba(0, 0, 0, 0.55);
+  --shadow-neon:   0 0 25px rgba(217, 165, 102, 0.35);
 }
 
 /* ---------- Reset & Base ---------- */
@@ -101,11 +102,11 @@ ul { list-style: none; }
 
 /* ---------- Typography ---------- */
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-main);
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-weight: 700;
   color: var(--white);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
 }
 
 h1 { font-size: clamp(2.3rem, 6vw, 4rem); font-weight: 900; }
