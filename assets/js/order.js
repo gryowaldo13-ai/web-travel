@@ -82,6 +82,46 @@ function clearError(fieldId, errorId) {
   }
 })();
 
+// ===================== TRIP TYPE SELECTOR =====================
+(function initTripType() {
+  const btnOneWay    = $('btnOneWay');
+  const btnRoundTrip = $('btnRoundTrip');
+  const hiddenInput  = $('tipePerjalanan');
+  const groupPulang  = $('groupTglPulang');
+  const inputPulang  = $('tglPulang');
+  const calcTipe     = $('calcTipe');
+
+  if (!btnOneWay || !btnRoundTrip) return;
+
+  function setTripType(type) {
+    if (type === 'oneway') {
+      btnOneWay.classList.add('active');
+      btnRoundTrip.classList.remove('active');
+      if (hiddenInput) hiddenInput.value = 'oneway';
+      if (groupPulang) groupPulang.style.display = 'none';
+      if (inputPulang) {
+        inputPulang.value = '';
+        inputPulang.removeAttribute('required');
+      }
+      clearError('tglPulang', 'tglPulangError');
+      if (calcTipe) calcTipe.textContent = 'Sekali Jalan';
+    } else {
+      btnRoundTrip.classList.add('active');
+      btnOneWay.classList.remove('active');
+      if (hiddenInput) hiddenInput.value = 'roundtrip';
+      if (groupPulang) groupPulang.style.display = 'block';
+      if (inputPulang) {
+        inputPulang.setAttribute('required', 'required');
+      }
+      if (calcTipe) calcTipe.textContent = 'Pulang Pergi';
+    }
+    recalcPrice();
+  }
+
+  btnOneWay.addEventListener('click', () => setTripType('oneway'));
+  btnRoundTrip.addEventListener('click', () => setTripType('roundtrip'));
+})();
+
 // ===================== PRICE CALCULATOR =====================
 function recalcPrice() {
   const destVal   = $('destinasi')?.value;
@@ -89,14 +129,20 @@ function recalcPrice() {
   const dateStart = $('tglBerangkat')?.value;
   const dateEnd   = $('tglPulang')?.value;
   const penumpang = parseInt($('penumpang')?.value || '1', 10) || 1;
+  const tipe      = $('tipePerjalanan')?.value || 'oneway';
 
   const destData = DESTINATION_DATA[destVal];
   const armData  = ARMADA_DATA[armVal];
 
   let durasi = 0;
-  if (dateStart && dateEnd) {
-    const diff = (new Date(dateEnd) - new Date(dateStart)) / (1000 * 60 * 60 * 24);
-    durasi = diff > 0 ? diff : 0;
+  if (tipe === 'roundtrip') {
+    if (dateStart && dateEnd) {
+      const diff = Math.round((new Date(dateEnd) - new Date(dateStart)) / (1000 * 60 * 60 * 24));
+      durasi = diff > 0 ? diff : 0;
+    }
+  } else {
+    // Sekali Jalan: gunakan durasi standar paket destinasi (atau 1 hari)
+    durasi = destData ? (destData.hari || 1) : 1;
   }
 
   const calcDest   = $('calcDest');
@@ -106,14 +152,18 @@ function recalcPrice() {
   const calcBiayaA = $('calcBiayaArmada');
   const calcTotal  = $('calcTotal');
   const calcDP     = $('calcDP');
+  const calcTipe   = $('calcTipe');
 
+  if (calcTipe) calcTipe.textContent = tipe === 'roundtrip' ? 'Pulang Pergi' : 'Sekali Jalan';
   if (!calcDest) return;
 
   calcDest.textContent   = destData ? destData.label : '—';
   calcArmada.textContent = armData  ? armData.label  : '—';
   calcDurasi.textContent = durasi   ? `${durasi} hari` : '—';
 
-  if (destData && armData && durasi > 0) {
+  const canCalculate = destData && armData && (tipe === 'oneway' ? Boolean(dateStart) : (durasi > 0));
+
+  if (canCalculate) {
     const paket       = destData.harga * penumpang;
     const biayaArmada = armData.biaya  * durasi;
     const total       = paket + biayaArmada;
@@ -125,7 +175,7 @@ function recalcPrice() {
     calcDP.textContent     = formatRupiah(dp);
 
     // Store for WA message
-    window._orderCalc = { total, dp, paket, biayaArmada, durasi, penumpang };
+    window._orderCalc = { total, dp, paket, biayaArmada, durasi, penumpang, tipe };
   } else {
     calcPaket.textContent  = '—';
     calcBiayaA.textContent = '—';
@@ -281,13 +331,18 @@ function validateAll() {
     valid = false;
   } else { clearError('tglBerangkat', 'tglBerangkatError'); }
 
-  // Tanggal Pulang
-  const tgP = $('tglPulang')?.value;
-  const endOk = sec.isEndAfterStart ? sec.isEndAfterStart(tgB, tgP) : (tgP && new Date(tgP) > new Date(tgB));
-  if (!endOk) {
-    setError('tglPulang', 'tglPulangError', true, 'Tanggal kepulangan harus setelah keberangkatan');
-    valid = false;
-  } else { clearError('tglPulang', 'tglPulangError'); }
+  // Tanggal Pulang (Hanya wajib jika Pulang Pergi)
+  const tipe = $('tipePerjalanan')?.value || 'oneway';
+  if (tipe === 'roundtrip') {
+    const tgP = $('tglPulang')?.value;
+    const endOk = sec.isEndAfterStart ? sec.isEndAfterStart(tgB, tgP) : (tgP && new Date(tgP) > new Date(tgB));
+    if (!endOk) {
+      setError('tglPulang', 'tglPulangError', true, 'Tanggal kepulangan harus setelah keberangkatan');
+      valid = false;
+    } else { clearError('tglPulang', 'tglPulangError'); }
+  } else {
+    clearError('tglPulang', 'tglPulangError');
+  }
 
   // Penumpang
   const pax = parseInt($('penumpang')?.value || '0', 10);
@@ -346,6 +401,9 @@ function buildWAMessage() {
   const dpFmt    = calc.dp    ? formatRupiah(calc.dp)    : '50% dari total';
   const duraFmt  = calc.durasi ? `${calc.durasi} hari` : '—';
 
+  const tipe     = $('tipePerjalanan')?.value || 'oneway';
+  const tipeText = tipe === 'roundtrip' ? 'Pulang Pergi (Round Trip)' : 'Sekali Jalan (One Way)';
+
   const lines = [
     '🚗 *PESANAN BARU — LUXDRIVE TRAVEL* 🚗',
     '━━━━━━━━━━━━━━━━━━━━━━',
@@ -356,10 +414,11 @@ function buildWAMessage() {
     `📧 Email       : ${email}`,
     '',
     '*🗺️ DETAIL PERJALANAN*',
+    `🔄 Tipe Trip    : ${tipeText}`,
     `📍 Destinasi   : ${destLabel}`,
     `🚙 Armada      : ${armLabel}`,
     `📅 Berangkat   : ${tgB}`,
-    `📅 Pulang      : ${tgP}`,
+    ...(tipe === 'roundtrip' ? [`📅 Pulang      : ${tgP}`] : []),
     `⏱️  Durasi      : ${duraFmt}`,
     `👥 Penumpang   : ${pax} orang`,
     `📌 Titik Jemput: ${titik}`,

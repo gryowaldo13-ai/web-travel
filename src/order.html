@@ -117,17 +117,33 @@
             </div>
           </div>
 
-          <!-- Row 3: Tanggal Keberangkatan & Kepulangan (WAJIB) -->
-          <div class="form-row">
-            <div class="form-group">
+          <!-- Row 3: Pilihan Tipe Perjalanan (Sekali Jalan vs Pulang Pergi) -->
+          <div class="form-group" style="margin-bottom: 1.2rem;">
+            <label style="display:block;margin-bottom:0.6rem;">
+              <i class="fas fa-route text-brand"></i> Tipe Perjalanan <span class="req">*</span>
+            </label>
+            <div class="trip-type-selector">
+              <button type="button" class="trip-type-btn active" data-type="oneway" id="btnOneWay">
+                <i class="fas fa-arrow-right"></i> Sekali Jalan (One Way)
+              </button>
+              <button type="button" class="trip-type-btn" data-type="roundtrip" id="btnRoundTrip">
+                <i class="fas fa-sync-alt"></i> Pulang Pergi (Round Trip)
+              </button>
+            </div>
+            <input type="hidden" id="tipePerjalanan" name="tipePerjalanan" value="oneway" />
+          </div>
+
+          <!-- Row 4: Tanggal Keberangkatan & Kepulangan -->
+          <div class="form-row" id="rowTanggal">
+            <div class="form-group" id="groupTglBerangkat">
               <label for="tglBerangkat"><i class="fas fa-calendar-alt text-brand"></i> Tanggal Berangkat <span class="req">*</span></label>
               <input type="date" id="tglBerangkat" name="tglBerangkat" class="form-control" required />
               <div class="form-error" id="tglBerangkatError">Wajib memilih tanggal keberangkatan (minimal hari ini)</div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="groupTglPulang" style="display: none;">
               <label for="tglPulang"><i class="fas fa-calendar-check text-brand"></i> Tanggal Pulang <span class="req">*</span></label>
-              <input type="date" id="tglPulang" name="tglPulang" class="form-control" required />
+              <input type="date" id="tglPulang" name="tglPulang" class="form-control" />
               <div class="form-error" id="tglPulangError">Wajib memilih tanggal kepulangan (setelah tanggal berangkat)</div>
             </div>
           </div>
@@ -252,6 +268,10 @@
 
           <div class="price-breakdown">
             <div class="price-row">
+              <span>Tipe Perjalanan:</span>
+              <strong id="calcTipe" style="color:var(--brand);">Sekali Jalan</strong>
+            </div>
+            <div class="price-row">
               <span>Destinasi Pilihan:</span>
               <strong id="calcDest" style="color:var(--white);">—</strong>
             </div>
@@ -364,11 +384,14 @@
 <div class="modal-overlay" id="modalKonfirmasi" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-box">
     <div class="modal-icon">📲</div>
-    <h3 id="modalTitle">Data Siap Dikirim ke WhatsApp!</h3>
-    <p>
-      Format pemesanan Anda beserta bukti pembayaran DP 50% telah disiapkan.<br><br>
-      <strong style="color:var(--brand);">Langkah Terakhir:</strong> Anda akan otomatis dialihkan ke WhatsApp resmi <strong>0895-6294-66956</strong>. Pastikan kirimkan juga file gambar screenshot transfer Anda pada ruang chat WhatsApp tersebut.
-    </p>
+    <h3 id="modalTitle">Pesanan Terverifikasi!</h3>
+    <div style="background:rgba(231,241,97,0.08);border:1px solid rgba(231,241,97,0.3);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;text-align:left;font-size:0.84rem;color:var(--gray-light);margin-bottom:1.5rem;line-height:1.5;">
+      <strong style="color:var(--brand);display:block;margin-bottom:0.4rem;">
+        <i class="fas fa-info-circle"></i> Info Pengiriman Bukti Transfer ke WA:
+      </strong>
+      Demi keamanan dan privasi di browser HP (Android & iOS), WhatsApp <strong>hanya mengizinkan teks yang terkirim otomatis</strong>.<br><br>
+      👉 <strong>Langkah Terakhir:</strong> Saat chat WhatsApp terbuka dengan data pesanan Anda, tekan ikon <strong>klip kertas (📎) atau kamera</strong> di WA untuk mengirimkan screenshot foto bukti transfer Anda bersamaan.
+    </div>
     <div class="modal-actions">
       <button class="btn btn-primary" id="btnLanjutWA">
         <i class="fab fa-whatsapp"></i> Buka WhatsApp Sekarang
