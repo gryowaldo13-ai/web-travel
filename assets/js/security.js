@@ -129,17 +129,37 @@ function formatWaitTime(ms) {
 // ===================== FILE VALIDATION =====================
 
 /**
- * Validate an uploaded file for type and size.
+ * Validate an uploaded file for type and size (Mobile Friendly: iOS/Android).
  * @param {File} file
- * @param {string[]} allowedTypes - e.g. ['image/jpeg','image/png','image/webp']
+ * @param {string[]} allowedTypes
  * @param {number} maxBytes
  * @returns {{ valid: boolean, error: string }}
  */
-function validateFile(file, allowedTypes = ['image/jpeg', 'image/png', 'image/webp'], maxBytes = 5 * 1024 * 1024) {
+function validateFile(file, allowedTypes = null, maxBytes = 10 * 1024 * 1024) {
   if (!file) return { valid: false, error: 'File tidak ditemukan' };
-  if (!allowedTypes.includes(file.type)) {
-    return { valid: false, error: `Format file tidak valid. Gunakan: ${allowedTypes.map(t => t.split('/')[1].toUpperCase()).join(', ')}` };
+
+  // Mobile compatibility: check MIME type OR file extension
+  const mime = (file.type || '').toLowerCase();
+  const name = (file.name || '').toLowerCase();
+  const ext  = name.split('.').pop() || '';
+
+  const validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'gif', 'bmp'];
+  const isImageMime = mime.startsWith('image/');
+  const isImageExt  = validExtensions.includes(ext);
+
+  // If specific allowedTypes provided and not mobile-default
+  if (allowedTypes && Array.isArray(allowedTypes) && allowedTypes.length > 0) {
+    const typeMatch = allowedTypes.some(t => mime.includes(t.replace('image/', '')) || ext === t.replace('image/', ''));
+    if (!typeMatch && !isImageMime && !isImageExt) {
+      return { valid: false, error: 'Format file tidak valid. Gunakan format gambar (JPG, PNG, WEBP, HEIC)' };
+    }
+  } else {
+    // Default check: any image mime or valid image extension
+    if (!isImageMime && !isImageExt) {
+      return { valid: false, error: 'Format file tidak valid. Silakan pilih file gambar (JPG, PNG, WEBP, HEIC)' };
+    }
   }
+
   if (file.size > maxBytes) {
     return { valid: false, error: `Ukuran file terlalu besar (maks. ${Math.round(maxBytes / 1024 / 1024)} MB)` };
   }

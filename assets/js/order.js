@@ -152,10 +152,18 @@ function recalcPrice() {
 
   if (!zone || !input) return;
 
-  // Click zone → trigger input
-  zone.addEventListener('click', () => input.click());
+  // Click zone → trigger input safely (avoid duplicate click on mobile)
+  zone.addEventListener('click', (e) => {
+    if (e.target !== input) {
+      input.click();
+    }
+  });
+
   zone.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      input.click();
+    }
   });
 
   // Drag & drop
@@ -164,18 +172,23 @@ function recalcPrice() {
   zone.addEventListener('drop', (e) => {
     e.preventDefault();
     zone.classList.remove('drag-over');
-    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) handleFile(file);
   });
 
   input.addEventListener('change', () => {
-    if (input.files[0]) handleFile(input.files[0]);
+    const file = input.files && input.files[0];
+    if (file) handleFile(file);
   });
 
-  if (remove) remove.addEventListener('click', clearUpload);
+  if (remove) remove.addEventListener('click', (e) => {
+    e.stopPropagation();
+    clearUpload();
+  });
 
   function handleFile(file) {
     const sec = window.LuxSecurity;
-    const result = sec ? sec.validateFile(file) : { valid: file.size < 5*1024*1024 && file.type.startsWith('image/'), error: 'Invalid file' };
+    const result = sec ? sec.validateFile(file) : { valid: file.size < 10*1024*1024, error: 'File tidak valid' };
 
     if (!result.valid) {
       window.showToast?.(result.error, 'error');
@@ -185,12 +198,25 @@ function recalcPrice() {
 
     uploadedFile = file;
     clearError('buktiTransfer', 'buktiError');
+    const bErr = $('buktiError');
+    if (bErr) bErr.classList.remove('show');
+    zone.classList.remove('error');
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      img.src = e.target.result;
-      name.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-      preview.style.display = 'block';
+      if (img) img.src = e.target.result;
+      if (name) name.textContent = `${file.name || 'screenshot.jpg'} (${(file.size / 1024).toFixed(1)} KB)`;
+      if (preview) {
+        preview.style.display = 'flex';
+        preview.classList.add('visible');
+      }
+    };
+    reader.onerror = () => {
+      if (name) name.textContent = `${file.name || 'screenshot'} (${(file.size / 1024).toFixed(1)} KB)`;
+      if (preview) {
+        preview.style.display = 'flex';
+        preview.classList.add('visible');
+      }
     };
     reader.readAsDataURL(file);
   }
@@ -199,7 +225,10 @@ function recalcPrice() {
     uploadedFile = null;
     if (img) img.src = '';
     if (name) name.textContent = '';
-    if (preview) preview.style.display = 'none';
+    if (preview) {
+      preview.style.display = 'none';
+      preview.classList.remove('visible');
+    }
     if (input) input.value = '';
   }
   window._clearUpload = clearUpload;
