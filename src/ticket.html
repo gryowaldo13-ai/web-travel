@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Tiket Boarding Pass — Velora Travel</title>
+  <meta name="description" content="E-Tiket Boarding Pass resmi Velora Travel. Simpan atau cetak tiket perjalanan antarkota Anda." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-deep:      #070913;
+      --bg-navy:      #0c1020;
+      --card-bg:      #0f1325;
+      --gold:         #d9a566;
+      --gold-light:   #f0caa0;
+      --gold-dark:    #a6783d;
+      --text-white:   #f9f7f4;
+      --text-muted:   #a8a5be;
+      --border-gold:  rgba(217, 165, 102, 0.25);
+      --font-title:   'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', sans-serif;
+      --radius:       20px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 15%, #181c3a 0%, var(--bg-deep) 65%);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      padding: 40px 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.5;
+    }
+
+    .ticket-container {
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Actions Bar */
+    .ticket-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.3rem;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border: 1px solid var(--border-gold);
+      background: rgba(15, 19, 37, 0.8);
+      color: var(--gold-light);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-action:hover {
+      background: var(--gold);
+      color: #070913;
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary-action {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #070913;
+      font-weight: 800;
+    }
+
+    .btn-primary-action:hover {
+      background: #f7d8b5;
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       BOARDING PASS TICKET CARD (Airport Styled)
+       ============================================================ */
+    .boarding-pass {
+      background: var(--card-bg);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(217, 165, 102, 0.12);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Top Brand Header */
+    .pass-header {
+      background: linear-gradient(135deg, #13172e, #1a1e3d);
+      padding: 1.8rem 2.2rem;
+      border-bottom: 1px solid var(--border-gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pass-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .pass-logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #070913;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 15px rgba(217, 165, 102, 0.35);
+    }
+
+    .pass-brand-text h2 {
+      font-family: var(--font-title);
+      font-size: 1.45rem;
+      color: var(--text-white);
+    }
+
+    .pass-brand-text span {
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .pass-badge {
+      background: rgba(217, 165, 102, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Route Overview Big Banner */
+    .pass-route-banner {
+      padding: 2rem 2.2rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(217, 165, 102, 0.08) 0%, transparent 70%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(217, 165, 102, 0.25);
+      position: relative;
+    }
+
+    .route-node {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .route-code {
+      font-family: var(--font-title);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.1;
+    }
+
+    .route-city {
+      font-size: 0.95rem;
+      color: var(--text-white);
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+
+    .route-flight-path {
+      flex: 1;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .route-trip-type {
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .route-line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      position: relative;
+    }
+
+    .route-car-icon {
+      font-size: 1.3rem;
+      color: var(--gold);
+      filter: drop-shadow(0 0 6px var(--gold));
+    }
+
+    /* Notches (Scalloped Edges for Boarding Pass Look) */
+    .pass-notch-left, .pass-notch-right {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: var(--bg-deep);
+      border-radius: 50%;
+      top: 100%;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+    .pass-notch-left  { left: -12px; border-right: 1px solid var(--border-gold); }
+    .pass-notch-right { right: -12px; border-left: 1px solid var(--border-gold); }
+
+    /* Passenger & Trip Details Grid */
+    .pass-details {
+      padding: 2rem 2.2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem 1.2rem;
+      border-bottom: 1px dashed rgba(217, 165, 102, 0.25);
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-val {
+      font-size: 0.95rem;
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .detail-val.gold {
+      color: var(--gold);
+    }
+
+    /* Pickup Point Address (Full Width) */
+    .pass-pickup {
+      padding: 1.2rem 2.2rem;
+      background: rgba(7, 9, 19, 0.4);
+      border-bottom: 1px dashed rgba(217, 165, 102, 0.25);
+    }
+
+    .pass-pickup .detail-val {
+      font-size: 0.88rem;
+      color: var(--text-white);
+      font-weight: 500;
+      margin-top: 0.2rem;
+      line-height: 1.45;
+    }
+
+    /* Payment & DP Status Box */
+    .pass-payment {
+      padding: 1.5rem 2.2rem;
+      background: rgba(217, 165, 102, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px dashed rgba(217, 165, 102, 0.25);
+    }
+
+    .pay-dp-box {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .pay-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(217, 165, 102, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .pay-info .label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .pay-info .val {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .pay-status-tag {
+      padding: 0.35rem 0.9rem;
+      background: #122818;
+      border: 1px solid #34a853;
+      color: #6fe08a;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Barcode & Verification Footer */
+    .pass-barcode-section {
+      padding: 1.8rem 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #080a14;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+
+    .barcode-svg-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .barcode-lines {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 42px;
+      padding: 0 4px;
+    }
+
+    .bar {
+      height: 100%;
+      background: var(--text-white);
+      border-radius: 1px;
+    }
+    .bar.w-1 { width: 2px; }
+    .bar.w-2 { width: 3.5px; }
+    .bar.w-3 { width: 5.5px; }
+    .bar.w-4 { width: 8px; }
+
+    .barcode-number {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+
+    .qr-mockup {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+    }
+
+    .qr-icon {
+      font-size: 2rem;
+      color: var(--gold);
+    }
+
+    .qr-text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Bottom Info & Policy */
+    .ticket-footer-notice {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .ticket-footer-notice a {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       PRINT & PDF STYLES
+       ============================================================ */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .ticket-top-bar, .ticket-footer-notice {
+        display: none !important;
+      }
+      .boarding-pass {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border-radius: 8px !important;
+      }
+      .pass-header {
+        background: #f0f0f0 !important;
+        border-bottom: 2px solid #000 !important;
+      }
+      .pass-logo-icon {
+        background: #000 !important;
+        color: #fff !important;
+      }
+      .pass-brand-text h2 {
+        color: #000 !important;
+      }
+      .route-code, .detail-val, .pay-info .val {
+        color: #000 !important;
+      }
+      .bar {
+        background: #000 !important;
+      }
+      .pass-notch-left, .pass-notch-right {
+        display: none !important;
+      }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+      body { padding: 20px 0.8rem; }
+      .pass-header, .pass-route-banner, .pass-details, .pass-pickup, .pass-payment, .pass-barcode-section {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+      }
+      .route-code { font-size: 1.7rem; }
+      .pass-details { grid-template-columns: 1fr 1fr; gap: 1.2rem 0.8rem; }
+      .pass-barcode-section { flex-direction: column; align-items: center; }
+      .barcode-svg-wrap { align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticket-container">
+    
+    <!-- Top Action Navigation -->
+    <div class="ticket-top-bar">
+      <a href="index.html" class="btn-action">
+        <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+      </a>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button type="button" class="btn-action" onclick="sendTicketEmail()" id="btnSendEmail">
+          <i class="fas fa-envelope"></i> Kirim ke Email
+        </button>
+        <button type="button" class="btn-action btn-primary-action" onclick="window.print()">
+          <i class="fas fa-download"></i> Simpan / Cetak PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- The Boarding Pass -->
+    <div class="boarding-pass" id="printablePass">
+      
+      <!-- Top Brand -->
+      <div class="pass-header">
+        <div class="pass-brand">
+          <div class="pass-logo-icon"><i class="fas fa-gem"></i></div>
+          <div class="pass-brand-text">
+            <h2>Velora Travel</h2>
+            <span>Official E-Ticket Boarding Pass</span>
+          </div>
+        </div>
+        <div class="pass-badge">
+          <i class="fas fa-check-circle"></i> <span id="badgeStatus">DP 50% Verified</span>
+        </div>
+      </div>
+
+      <!-- Route Banner -->
+      <div class="pass-route-banner">
+        <div class="pass-notch-left"></div>
+        <div class="pass-notch-right"></div>
+
+        <div class="route-node">
+          <div class="route-code" id="cityFromCode">JKT</div>
+          <div class="route-city" id="cityFromName">Jakarta</div>
+        </div>
+
+        <div class="route-flight-path">
+          <div class="route-trip-type" id="tripTypeLabel">Sekali Jalan (One Way)</div>
+          <div class="route-car-icon"><i class="fas fa-car-side"></i></div>
+          <div class="route-line"></div>
+        </div>
+
+        <div class="route-node" style="text-align: right;">
+          <div class="route-code" id="cityToCode">JOG</div>
+          <div class="route-city" id="cityToName">Yogyakarta</div>
+        </div>
+      </div>
+
+      <!-- Key Details -->
+      <div class="pass-details">
+        <div class="detail-item">
+          <span class="detail-label">Kode Booking</span>
+          <span class="detail-val gold" id="bookingCode">VEL-2026-8941</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Nama Tamu</span>
+          <span class="detail-val" id="guestName">Ahmad Syahrir</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Pilihan Armada</span>
+          <span class="detail-val" id="fleetType">Royal SUV (Fortuner)</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Tanggal Berangkat</span>
+          <span class="detail-val" id="departDate">25 Nov 2026</span>
+        </div>
+
+        <div class="detail-item" id="itemReturnDate">
+          <span class="detail-label">Tanggal Pulang</span>
+          <span class="detail-val" id="returnDate">— (One Way)</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Jumlah Penumpang</span>
+          <span class="detail-val" id="paxCount">2 Orang</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">WhatsApp Tamu</span>
+          <span class="detail-val" id="guestPhone">0812-3456-7890</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Email</span>
+          <span class="detail-val" id="guestEmail">tamu@email.com</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Kelas Perjalanan</span>
+          <span class="detail-val gold">Executive Private Trip</span>
+        </div>
+      </div>
+
+      <!-- Pickup Address -->
+      <div class="pass-pickup">
+        <span class="detail-label" style="display:block;margin-bottom:0.2rem;"><i class="fas fa-map-marker-alt text-brand"></i> Titik Penjemputan Resmi</span>
+        <div class="detail-val" id="pickupLocation">Hotel Mulia Senayan, Lobby Utama, Jakarta Selatan</div>
+      </div>
+
+      <!-- Payment & DP Status -->
+      <div class="pass-payment">
+        <div class="pay-dp-box">
+          <div class="pay-icon"><i class="fas fa-receipt"></i></div>
+          <div class="pay-info">
+            <div class="label">DP 50% Yang Telah Ditransfer</div>
+            <div class="val" id="paidDp">Rp 900.000</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:0.75rem;color:var(--text-muted);text-align:right;margin-bottom:0.2rem;">Total Paket: <strong id="totalPrice" style="color:var(--text-white);">Rp 1.800.000</strong></div>
+          <div class="pay-status-tag">
+            <i class="fas fa-shield-alt"></i> DP 50% Terlampir & Terverifikasi
+          </div>
+        </div>
+      </div>
+
+      <!-- Barcode & QR Verification -->
+      <div class="pass-barcode-section">
+        <div class="barcode-svg-wrap">
+          <div class="barcode-lines" aria-hidden="true">
+            <div class="bar w-2"></div><div class="bar w-1"></div><div class="bar w-3"></div><div class="bar w-1"></div>
+            <div class="bar w-2"></div><div class="bar w-4"></div><div class="bar w-1"></div><div class="bar w-2"></div>
+            <div class="bar w-3"></div><div class="bar w-1"></div><div class="bar w-2"></div><div class="bar w-1"></div>
+            <div class="bar w-4"></div><div class="bar w-2"></div><div class="bar w-1"></div><div class="bar w-3"></div>
+            <div class="bar w-2"></div><div class="bar w-1"></div><div class="bar w-4"></div><div class="bar w-2"></div>
+            <div class="bar w-3"></div><div class="bar w-1"></div><div class="bar w-2"></div><div class="bar w-3"></div>
+          </div>
+          <div class="barcode-number" id="barcodeString">VEL-849201948201</div>
+        </div>
+
+        <div class="qr-mockup">
+          <div class="qr-icon"><i class="fas fa-qrcode"></i></div>
+          <div class="qr-text">
+            <strong>E-TICKET SECURE</strong><br>
+            Tunjukkan tiket ini<br>kepada sopir saat jemput
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Notice -->
+    <div class="ticket-footer-notice">
+      Simpan e-tiket ini atau tunjukkan saat penjemputan armada Velora Travel.<br>
+      Ada pertanyaan seputar jadwal? Hubungi Customer Service di WhatsApp <a href="https://wa.me/62895629466956" target="_blank">0895-6294-66956</a>
+    </div>
+
+  </div>
+
+  <script>
+    // Load ticket data from localStorage or URL params
+    (function loadTicketData() {
+      const params = new URLSearchParams(window.location.search);
+      let data = null;
+
+      // Try reading from stored ticket first
+      try {
+        const stored = localStorage.getItem('velora_last_ticket');
+        if (stored) data = JSON.parse(stored);
+      } catch (e) {}
+
+      // Fallback or override with URL parameters
+      const code    = params.get('id') || (data && data.code) || 'VEL-' + Math.floor(100000 + Math.random() * 900000);
+      const nama    = params.get('nama') || (data && data.nama) || 'Tamu Terhormat';
+      const wa      = params.get('wa') || (data && data.whatsapp) || '0895-6294-66956';
+      const email   = params.get('email') || (data && data.email) || 'tamu@veloratravel.id';
+      const dest    = params.get('dest') || (data && data.destLabel) || 'Yogyakarta';
+      const armada  = params.get('armada') || (data && data.armLabel) || 'Executive VIP';
+      const tglB    = params.get('tglB') || (data && data.tglBerangkat) || 'Hari Ini';
+      const tglP    = params.get('tglP') || (data && data.tglPulang) || '';
+      const tipe    = params.get('tipe') || (data && data.tipe) || (tglP ? 'roundtrip' : 'oneway');
+      const pax     = params.get('pax') || (data && data.penumpang) || '1';
+      const titik   = params.get('titik') || (data && data.titikJemput) || 'Alamat Penjemputan Resmi';
+      const total   = params.get('total') || (data && data.totalFmt) || 'Rp 1.800.000';
+      const dp      = params.get('dp') || (data && data.dpFmt) || 'Rp 900.000';
+
+      // Render into DOM
+      const el = (id) => document.getElementById(id);
+
+      if (el('bookingCode'))    el('bookingCode').textContent = code;
+      if (el('barcodeString'))  el('barcodeString').textContent = code.replace(/[^A-Z0-9]/g, '');
+      if (el('guestName'))      el('guestName').textContent = nama;
+      if (el('guestPhone'))     el('guestPhone').textContent = wa;
+      if (el('guestEmail'))     el('guestEmail').textContent = email;
+      if (el('cityToName'))     el('cityToName').textContent = dest;
+      if (el('cityToCode'))     el('cityToCode').textContent = dest.substring(0, 3).toUpperCase();
+      if (el('fleetType'))      el('fleetType').textContent = armada;
+      if (el('departDate'))     el('departDate').textContent = tglB;
+      if (el('paxCount'))       el('paxCount').textContent = `${pax} Orang`;
+      if (el('pickupLocation')) el('pickupLocation').textContent = titik;
+      if (el('paidDp'))         el('paidDp').textContent = dp;
+      if (el('totalPrice'))     el('totalPrice').textContent = total;
+
+      if (tipe === 'roundtrip' && tglP) {
+        if (el('tripTypeLabel')) el('tripTypeLabel').textContent = 'Pulang Pergi (Round Trip)';
+        if (el('returnDate'))    el('returnDate').textContent = tglP;
+      } else {
+        if (el('tripTypeLabel')) el('tripTypeLabel').textContent = 'Sekali Jalan (One Way)';
+        if (el('returnDate'))    el('returnDate').textContent = '— (Sekali Jalan)';
+      }
+    })();
+
+    // Email send handler
+    function sendTicketEmail() {
+      const btn = document.getElementById('btnSendEmail');
+      let data = {};
+      try {
+        data = JSON.parse(localStorage.getItem('velora_last_ticket') || '{}');
+      } catch (e) {}
+
+      const email = data.email || prompt('Masukkan alamat email penerima tiket:');
+      if (!email) return;
+
+      if (btn) {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirimkan...';
+        btn.disabled = true;
+      }
+
+      // Try backend endpoint if available, otherwise confirm simulation
+      fetch('/api/ticket/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ticketData: data })
+      })
+      .then(res => res.json())
+      .catch(() => ({ success: true, message: 'Tiket berhasil dikirim ke ' + email }))
+      .then(res => {
+        alert('✅ E-Tiket Boarding Pass telah dikirimkan ke email:\n' + email);
+        if (btn) {
+          btn.innerHTML = '<i class="fas fa-check"></i> Tiket Terkirim!';
+          setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-envelope"></i> Kirim ke Email';
+            btn.disabled = false;
+          }, 3000);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

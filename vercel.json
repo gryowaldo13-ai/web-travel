@@ -6,6 +6,8 @@
     { "source": "/index.html", "destination": "/src/index.html" },
     { "source": "/order", "destination": "/src/order.html" },
     { "source": "/order.html", "destination": "/src/order.html" },
+    { "source": "/ticket", "destination": "/src/ticket.html" },
+    { "source": "/ticket.html", "destination": "/src/ticket.html" },
     { "source": "/tentang-kami", "destination": "/src/tentang kami.html" },
     { "source": "/tentang-kami.html", "destination": "/src/tentang kami.html" }
   ]

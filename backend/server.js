@@ -11,8 +11,10 @@ const helmet       = require('helmet');
 const cors         = require('cors');
 const rateLimit    = require('express-rate-limit');
 const morgan       = require('morgan');
-const orderRoutes  = require('./routes/order');
-const waRoutes     = require('./routes/whatsapp');
+const orderRoutes   = require('./routes/order');
+const waRoutes      = require('./routes/whatsapp');
+const ticketRoutes  = require('./routes/ticket');
+const gatewayRoutes = require('./routes/gateway');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -66,10 +68,12 @@ app.use('/api/', globalLimiter);
 // ─── API Routes ────────────────────────────────────────────────
 app.use('/api/order',    orderRoutes);
 app.use('/api/whatsapp', waRoutes);
+app.use('/api/ticket',   ticketRoutes);
+app.use('/api/gateway',  gatewayRoutes);
 
 // ─── Health Check ─────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'LuxDrive API is running', timestamp: new Date().toISOString() });
+  res.json({ success: true, message: 'Velora Travel API is running', timestamp: new Date().toISOString() });
 });
 
 // ─── Frontend Static Files ────────────────────────────────────
@@ -87,6 +91,10 @@ app.get('/index.html', (_req, res) => {
 
 app.get(['/order', '/order.html'], (_req, res) => {
   res.sendFile(path.join(srcDir, 'order.html'));
+});
+
+app.get(['/ticket', '/ticket.html'], (_req, res) => {
+  res.sendFile(path.join(srcDir, 'ticket.html'));
 });
 
 app.get(['/tentang-kami', '/tentang-kami.html', '/tentang%20kami.html', '/tentang kami.html'], (_req, res) => {

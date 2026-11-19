@@ -377,7 +377,7 @@ function validateAll() {
   return valid;
 }
 
-// ===================== BUILD WA MESSAGE =====================
+// ===================== BUILD WA MESSAGE & TICKET =====================
 function buildWAMessage() {
   const sec   = window.LuxSecurity || {};
   const strip = sec.stripHtml || ((s) => s.replace(/<[^>]*>/g,'').trim());
@@ -404,9 +404,72 @@ function buildWAMessage() {
   const tipe     = $('tipePerjalanan')?.value || 'oneway';
   const tipeText = tipe === 'roundtrip' ? 'Pulang Pergi (Round Trip)' : 'Sekali Jalan (One Way)';
 
+  // Generate Unique Booking Code e.g. VEL-2026-8942
+  const randNum = Math.floor(1000 + Math.random() * 9000);
+  const bookingCode = `VEL-${new Date().getFullYear()}-${randNum}`;
+
+  // Build ticket URL
+  const origin = window.location.origin || '';
+  const ticketPath = window.location.pathname.replace('order.html', 'ticket.html');
+  const ticketUrl = `${origin}${ticketPath}?id=${bookingCode}`;
+
+  // Package ticket data & save to localStorage for ticket.html
+  const ticketData = {
+    code: bookingCode,
+    nama,
+    whatsapp: wa,
+    email,
+    destVal,
+    destLabel,
+    armVal,
+    armLabel,
+    tglBerangkat: tgB,
+    tglPulang: tgP,
+    tipe,
+    penumpang: pax,
+    titikJemput: titik,
+    keterangan: ket,
+    totalFmt,
+    dpFmt,
+    duraFmt,
+    fileName: uploadedFile ? uploadedFile.name : 'screenshot.jpg',
+    ticketUrl,
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    localStorage.setItem('velora_last_ticket', JSON.stringify(ticketData));
+  } catch (e) {}
+
+  // Update Ticket Link in Confirmation Modal
+  const btnLihatTiket = $('btnLihatTiket');
+  if (btnLihatTiket) {
+    btnLihatTiket.href = ticketUrl;
+  }
+
+  // Trigger automated email sending in background (Cara 1)
+  try {
+    fetch('/api/ticket/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, ticketData })
+    }).catch(() => {});
+  } catch (e) {}
+
+  // Trigger automated WhatsApp Gateway in background (Cara 2)
+  try {
+    fetch('/api/gateway/send-wa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: wa, ticketData })
+    }).catch(() => {});
+  } catch (e) {}
+
   const lines = [
-    '🚗 *PESANAN BARU — LUXDRIVE TRAVEL* 🚗',
+    '🚗 *PESANAN BARU — VELORA TRAVEL* 🚗',
     '━━━━━━━━━━━━━━━━━━━━━━',
+    `🎫 *KODE BOOKING* : *${bookingCode}*`,
+    `🔗 *E-TIKET PASS* : ${ticketUrl}`,
     '',
     '*📋 DATA PEMESAN*',
     `👤 Nama        : ${nama}`,
@@ -432,9 +495,9 @@ function buildWAMessage() {
     ket,
     '',
     '━━━━━━━━━━━━━━━━━━━━━━',
-    '⚠️ *PERHATIAN:* Bukti transfer screenshot di atas dikirimkan bersamaan melalui lampiran foto ke nomor WA ini.',
+    '⚠️ *PERHATIAN:* Foto bukti screenshot transfer DP di atas dikirimkan bersamaan melalui lampiran foto ke nomor WA ini.',
     '',
-    '✅ Terima kasih telah mempercayai *LuxDrive Travel*!',
+    '✅ Terima kasih telah mempercayai *Velora Travel*!',
   ];
 
   return lines.join('\n');

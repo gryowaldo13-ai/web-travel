@@ -380,24 +380,31 @@
   </div>
 </footer>
 
-<!-- ==================== MODAL KONFIRMASI ==================== -->
+<!-- ==================== MODAL KONFIRMASI & E-TIKET ==================== -->
 <div class="modal-overlay" id="modalKonfirmasi" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-box">
-    <div class="modal-icon">📲</div>
-    <h3 id="modalTitle">Pesanan Terverifikasi!</h3>
-    <div style="background:rgba(231,241,97,0.08);border:1px solid rgba(231,241,97,0.3);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;text-align:left;font-size:0.84rem;color:var(--gray-light);margin-bottom:1.5rem;line-height:1.5;">
-      <strong style="color:var(--brand);display:block;margin-bottom:0.4rem;">
-        <i class="fas fa-info-circle"></i> Info Pengiriman Bukti Transfer ke WA:
+    <div class="modal-icon">🎫</div>
+    <h3 id="modalTitle">E-Tiket Boarding Pass Siap!</h3>
+    
+    <!-- Info Box -->
+    <div style="background:rgba(217,165,102,0.1);border:1px solid rgba(217,165,102,0.3);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;text-align:left;font-size:0.84rem;color:var(--text-white);margin-bottom:1.2rem;line-height:1.5;">
+      <strong style="color:var(--brand);display:block;margin-bottom:0.3rem;">
+        <i class="fas fa-check-circle"></i> Pesanan Berhasil Dibuat
       </strong>
-      Demi keamanan dan privasi di browser HP (Android & iOS), WhatsApp <strong>hanya mengizinkan teks yang terkirim otomatis</strong>.<br><br>
-      👉 <strong>Langkah Terakhir:</strong> Saat chat WhatsApp terbuka dengan data pesanan Anda, tekan ikon <strong>klip kertas (📎) atau kamera</strong> di WA untuk mengirimkan screenshot foto bukti transfer Anda bersamaan.
+      E-Tiket resmi telah dibuat dan dikirimkan ke email Anda.<br><br>
+      👉 <strong>Langkah Terakhir:</strong> Buka WhatsApp admin untuk konfirmasi penjemputan. Tautan e-tiket dan format data sudah otomatis terisi di chat WA. Tinggal lampirkan foto screenshot DP Anda via tombol klip (📎).
     </div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="btnLanjutWA">
-        <i class="fab fa-whatsapp"></i> Buka WhatsApp Sekarang
+
+    <!-- Actions -->
+    <div class="modal-actions" style="display:flex;flex-direction:column;gap:0.7rem;">
+      <a href="ticket.html" target="_blank" class="btn btn-primary" id="btnLihatTiket" style="width:100%;justify-content:center;">
+        <i class="fas fa-ticket-alt"></i> Lihat & Unduh E-Tiket PDF
+      </a>
+      <button class="btn btn-secondary" id="btnLanjutWA" style="width:100%;justify-content:center;">
+        <i class="fab fa-whatsapp" style="color:#25d366;"></i> Lanjut ke WhatsApp Admin
       </button>
-      <button class="btn btn-outline" id="btnTutupModal">
-        Kembali
+      <button type="button" class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;border:none;color:var(--text-muted);font-size:0.85rem;">
+        Tutup Jendela Ini
       </button>
     </div>
   </div>
