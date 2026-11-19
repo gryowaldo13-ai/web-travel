@@ -523,7 +523,17 @@ function buildWAMessage() {
   if (btnWA) {
     btnWA.addEventListener('click', () => {
       window._hideModal();
-      if (waUrl) window.open(waUrl, '_blank', 'noopener,noreferrer');
+      // Generate ticket URL with all data embedded
+      const ticketData = JSON.parse(localStorage.getItem('velora_last_ticket') || '{}');
+      const origin = window.location.origin || '';
+      const ticketPath = window.location.pathname.replace('order.html', 'ticket.html');
+      const ticketUrl = `${origin}${ticketPath}?id=${ticketData.code || 'VEL-2026'}`;
+      
+      // Mark that user just booked
+      sessionStorage.setItem('justBooked', 'true');
+      
+      // Redirect to ticket page instead of opening WhatsApp directly
+      window.location.href = ticketUrl;
     });
   }
 

@@ -478,6 +478,12 @@
       .pass-barcode-section { flex-direction: column; align-items: center; }
       .barcode-svg-wrap { align-items: center; }
     }
+
+    /* Pulse animation for WhatsApp button */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+    }
   </style>
 </head>
 <body>
@@ -490,11 +496,11 @@
         <i class="fas fa-arrow-left"></i> Kembali ke Beranda
       </a>
       <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
-        <button type="button" class="btn-action" onclick="sendTicketEmail()" id="btnSendEmail">
-          <i class="fas fa-envelope"></i> Kirim ke Email
-        </button>
         <button type="button" class="btn-action btn-primary-action" onclick="window.print()">
-          <i class="fas fa-download"></i> Simpan / Cetak PDF
+          <i class="fas fa-download"></i> Unduh E-Tiket PDF
+        </button>
+        <button type="button" class="btn-action" onclick="sendToWhatsApp()" id="btnWhatsApp" style="background: linear-gradient(135deg, #25d366, #128c7e); color: #fff; border-color: #25d366;">
+          <i class="fab fa-whatsapp"></i> Lanjut ke WhatsApp Admin
         </button>
       </div>
     </div>
@@ -635,8 +641,30 @@
 
     </div>
 
-    <!-- Notice -->
-    <div class="ticket-footer-notice">
+    <!-- Notice with clear instructions -->
+    <div class="ticket-footer-notice" style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.25);border-radius:12px;padding:1.2rem 1.5rem;margin-top:1.5rem;text-align:left;">
+      <div style="display:flex;align-items:start;gap:0.8rem;">
+        <div style="font-size:1.8rem;color:#25d366;line-height:1;">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <div>
+          <strong style="display:block;font-size:1rem;color:var(--text-white);margin-bottom:0.4rem;">
+            <i class="fas fa-info-circle" style="color:#25d366;"></i> Langkah Terakhir: Konfirmasi ke WhatsApp Admin
+          </strong>
+          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:0.8rem;">
+            E-Tiket Anda sudah siap! Sekarang lakukan konfirmasi final ke admin WhatsApp dengan cara:
+          </p>
+          <ol style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;margin-left:1.2rem;">
+            <li style="margin-bottom:0.3rem;">Klik tombol <strong style="color:#25d366;">"Lanjut ke WhatsApp Admin"</strong> di atas</li>
+            <li style="margin-bottom:0.3rem;">Chat WhatsApp akan terbuka dengan pesan otomatis berisi data booking Anda</li>
+            <li style="margin-bottom:0.3rem;">Lampirkan foto screenshot bukti transfer DP via tombol klip 📎</li>
+            <li>Kirim pesan dan tunggu konfirmasi dari admin</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-footer-notice" style="margin-top:1rem;">
       Simpan e-tiket ini atau tunjukkan saat penjemputan armada Velora Travel.<br>
       Ada pertanyaan seputar jadwal? Hubungi Customer Service di WhatsApp <a href="https://wa.me/62895629466956" target="_blank">0895-6294-66956</a>
     </div>
@@ -693,6 +721,98 @@
       } else {
         if (el('tripTypeLabel')) el('tripTypeLabel').textContent = 'Sekali Jalan (One Way)';
         if (el('returnDate'))    el('returnDate').textContent = '— (Sekali Jalan)';
+      }
+    })();
+
+    // Build WhatsApp message with ticket data
+    function sendToWhatsApp() {
+      const WA_NUMBER = '62895629466956';
+      let data = {};
+      try {
+        data = JSON.parse(localStorage.getItem('velora_last_ticket') || '{}');
+      } catch (e) {}
+
+      const bookingCode = data.code || document.getElementById('bookingCode')?.textContent || 'VEL-2026';
+      const nama = data.nama || document.getElementById('guestName')?.textContent || '';
+      const wa = data.whatsapp || document.getElementById('guestPhone')?.textContent || '';
+      const email = data.email || document.getElementById('guestEmail')?.textContent || '';
+      const destLabel = data.destLabel || document.getElementById('cityToName')?.textContent || '';
+      const armLabel = data.armLabel || document.getElementById('fleetType')?.textContent || '';
+      const tglB = data.tglBerangkat || document.getElementById('departDate')?.textContent || '';
+      const tglP = data.tglPulang || document.getElementById('returnDate')?.textContent || '';
+      const tipe = data.tipe || 'oneway';
+      const tipeText = tipe === 'roundtrip' ? 'Pulang Pergi (Round Trip)' : 'Sekali Jalan (One Way)';
+      const pax = data.penumpang || document.getElementById('paxCount')?.textContent || '1';
+      const titik = data.titikJemput || document.getElementById('pickupLocation')?.textContent || '';
+      const totalFmt = data.totalFmt || document.getElementById('totalPrice')?.textContent || '';
+      const dpFmt = data.dpFmt || document.getElementById('paidDp')?.textContent || '';
+      const duraFmt = data.duraFmt || '—';
+      const ket = data.keterangan || '—';
+      const fileName = data.fileName || 'bukti-transfer.jpg';
+
+      // Get ticket URL
+      const ticketUrl = window.location.href;
+
+      const lines = [
+        '🚗 *PESANAN BARU — VELORA TRAVEL* 🚗',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        `🎫 *KODE BOOKING* : *${bookingCode}*`,
+        `🔗 *E-TIKET PASS* : ${ticketUrl}`,
+        '',
+        '*📋 DATA PEMESAN*',
+        `👤 Nama        : ${nama}`,
+        `📱 WhatsApp    : ${wa}`,
+        `📧 Email       : ${email}`,
+        '',
+        '*🗺️ DETAIL PERJALANAN*',
+        `🔄 Tipe Trip    : ${tipeText}`,
+        `📍 Destinasi   : ${destLabel}`,
+        `🚙 Armada      : ${armLabel}`,
+        `📅 Berangkat   : ${tglB}`,
+        ...(tipe === 'roundtrip' && tglP && tglP !== '— (Sekali Jalan)' ? [`📅 Pulang      : ${tglP}`] : []),
+        `⏱️  Durasi      : ${duraFmt}`,
+        `👥 Penumpang   : ${pax}`,
+        `📌 Titik Jemput: ${titik}`,
+        '',
+        '*💰 INFORMASI PEMBAYARAN*',
+        `💳 Total Harga : ${totalFmt}`,
+        `💰 DP (50%)    : ${dpFmt} (SUDAH DITRANSFER)`,
+        `📎 Bukti TF    : ${fileName}`,
+        '',
+        '*📝 KETERANGAN TAMBAHAN*',
+        ket,
+        '',
+        '━━━━━━━━━━━━━━━━━━━━━━',
+        '⚠️ *PERHATIAN:* Foto bukti screenshot transfer DP di atas dikirimkan bersamaan melalui lampiran foto ke nomor WA ini.',
+        '',
+        '✅ Terima kasih telah mempercayai *Velora Travel*!',
+      ];
+
+      const message = lines.join('\n');
+      const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    // Show welcome notice on first load
+    (function showWelcomeNotice() {
+      // Check if user just came from order page
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromOrder = document.referrer.includes('order.html') || sessionStorage.getItem('justBooked') === 'true';
+      
+      if (fromOrder) {
+        sessionStorage.removeItem('justBooked');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Optional: Show a temporary highlight on WhatsApp button
+        setTimeout(() => {
+          const waBtn = document.getElementById('btnWhatsApp');
+          if (waBtn) {
+            waBtn.style.animation = 'pulse 1s ease-in-out 3';
+          }
+        }, 500);
       }
     })();
 
