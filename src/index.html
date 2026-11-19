@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuxDrive Travel — Premium Travel Experience</title>
+  <meta name="description" content="Layanan travel mobil mewah dengan rute terbaik di Indonesia. Pilih destinasi, booking langsung, dan nikmati kemudahan perjalanan bersama LuxDrive Travel." />
+  
+  <!-- Google Fonts: Red Hat Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="LuxDrive Travel">
+        <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
+        <span>LuxDrive <span>Travel</span></span>
+      </a>
+
+      <!-- MENU UTAMA SEJAJAR -->
+      <ul class="nav-menu" id="navMenu" role="menubar">
+        <li role="none"><a href="index.html" class="nav-link active" role="menuitem"><i class="fas fa-home"></i> Beranda</a></li>
+        <li role="none"><a href="#destinasi" class="nav-link" role="menuitem"><i class="fas fa-compass"></i> Destinasi</a></li>
+        <li role="none"><a href="#armada" class="nav-link" role="menuitem"><i class="fas fa-car"></i> Armada</a></li>
+        <li role="none"><a href="order.html" class="nav-link" role="menuitem"><i class="fas fa-ticket-alt"></i> Order</a></li>
+        <li role="none"><a href="tentang kami.html" class="nav-link" role="menuitem"><i class="fas fa-users"></i> Tentang Kami</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <a href="order.html" class="btn btn-primary btn-sm" style="display: none;">Pesan</a>
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="hero" id="beranda">
+  <div class="container">
+    <div class="hero-grid">
+      
+      <!-- Left Content -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i> Premium Travel Application & Service
+        </div>
+        <h1>Let's Make Our <br><span class="accent">Trip So a Life</span></h1>
+        <p>Jelajahi keindahan Indonesia bersama armada eksklusif dan driver berpengalaman. Nikmati perjalanan privat yang aman, nyaman, dan terencana sempurna.</p>
+        
+        <!-- Filter Pills like reference image -->
+        <div class="hero-quick-filters">
+          <button class="filter-pill active"><i class="fas fa-arrow-right"></i> One Way</button>
+          <button class="filter-pill"><i class="fas fa-sync-alt"></i> Round Trip</button>
+          <button class="filter-pill"><i class="fas fa-shield-alt"></i> VIP Escort</button>
+        </div>
+
+        <div class="hero-actions" style="margin-top: 1.8rem;">
+          <a href="order.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-ticket-alt"></i> Order Tiket Sekarang
+          </a>
+          <a href="#destinasi" class="btn btn-outline btn-lg">
+            <i class="fas fa-search-location"></i> Cari Destinasi
+          </a>
+        </div>
+      </div>
+
+      <!-- Right App Mockup Preview (Matches Reference UI) -->
+      <div class="hero-mockup-wrapper">
+        <div class="phone-mockup">
+          <div class="phone-header">
+            <div class="phone-user">
+              <div class="phone-avatar">LK</div>
+              <div>
+                <div style="font-weight: 800; font-size: 0.85rem; color: #fff;">LuxDrive Member</div>
+                <div style="font-size: 0.72rem; color: var(--gray-mid);">VIP Travel Pass</div>
+              </div>
+            </div>
+            <div style="color: var(--brand); font-size: 1.1rem;"><i class="fas fa-bell"></i></div>
+          </div>
+
+          <!-- In-App Banner Card -->
+          <div class="phone-banner">
+            <h4>Let's Make Our<br>Life so a Life</h4>
+            <p>Jadwalkan perjalanan liburan terbaik Anda minggu ini.</p>
+            <a href="order.html" class="btn-mini">Find Trip <i class="fas fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Boarding Pass Mockup -->
+          <div class="mockup-pass">
+            <div style="font-size: 0.7rem; color: var(--gray-mid); text-transform: uppercase; margin-bottom: 0.3rem;">Boarding Pass Preview</div>
+            <div class="mockup-pass-row">
+              <div>
+                <div class="mockup-pass-code">JKT</div>
+                <div style="font-size: 0.75rem; color: var(--gray-light);">Jakarta</div>
+              </div>
+              <div style="color: var(--brand); font-size: 1.2rem;"><i class="fas fa-car-side"></i></div>
+              <div style="text-align: right;">
+                <div class="mockup-pass-code">DPS</div>
+                <div style="font-size: 0.75rem; color: var(--gray-light);">Bali Trip</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-top: 0.8rem; border-top: 1px dashed var(--dark-border); padding-top: 0.6rem;">
+              <span>DP 50% Required</span>
+              <span style="color: var(--brand); font-weight: 800;">Rp 1.250.000</span>
+            </div>
+
+            <!-- Simulated Barcode -->
+            <div class="mockup-barcode">
+              <div class="barcode-bar w-2"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-3"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-3"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid stagger-children">
+      <div class="stat-item reveal">
+        <div class="stat-number" data-target="500">0</div>
+        <div class="stat-label"><i class="fas fa-road text-brand"></i> Perjalanan Sukses</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-target="200">0</div>
+        <div class="stat-label"><i class="fas fa-users text-brand"></i> Pelanggan Puas</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number" data-target="50">0</div>
+        <div class="stat-label"><i class="fas fa-map-marker-alt text-brand"></i> Destinasi Wisata</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label"><i class="fas fa-headset text-brand"></i> Support Responsif</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DESTINASI ==================== -->
+<section id="destinasi">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label"><i class="fas fa-compass"></i> Popular Destination</span>
+      <h2>Destinasi <span class="text-brand">Pilihan Terbaik</span></h2>
+      <p>Jelajahi tempat-tempat paling ikonik di Indonesia dengan paket private trip berfasilitas lengkap.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="cards-grid stagger-children">
+
+      <!-- Bali -->
+      <article class="card reveal">
+        <div class="card-img dest-bali">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🏖️</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">3 Hari 2 Malam</div>
+          <h3 class="card-title">Bali Island</h3>
+          <p class="card-desc">Keindahan pantai selatan, Tanah Lot, Ubud, hingga beach club eksklusif dengan kenyamanan armada privat.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 2.500.000</div>
+              <div class="price-dur">DP 50%: Rp 1.250.000</div>
+            </div>
+            <a href="order.html?dest=bali" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Yogyakarta -->
+      <article class="card reveal">
+        <div class="card-img dest-yogya">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🏛️</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">2 Hari 1 Malam</div>
+          <h3 class="card-title">Yogyakarta Heritage</h3>
+          <p class="card-desc">Jelajahi kemegahan Candi Borobudur, Prambanan, Malioboro, dan kuliner khas keraton yang istimewa.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 1.800.000</div>
+              <div class="price-dur">DP 50%: Rp 900.000</div>
+            </div>
+            <a href="order.html?dest=yogyakarta" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Bromo -->
+      <article class="card reveal">
+        <div class="card-img dest-bromo">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🌋</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">2 Hari 1 Malam</div>
+          <h3 class="card-title">Bromo Sunrise Trip</h3>
+          <p class="card-desc">Menyaksikan golden sunrise Penanjakan, kawah Bromo, dan petualangan melintasi pasir berbisik.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 1.500.000</div>
+              <div class="price-dur">DP 50%: Rp 750.000</div>
+            </div>
+            <a href="order.html?dest=bromo" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Raja Ampat -->
+      <article class="card reveal">
+        <div class="card-img dest-raja">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🤿</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">5 Hari 4 Malam</div>
+          <h3 class="card-title">Raja Ampat Paradise</h3>
+          <p class="card-desc">Gugusan pulau karang eksotis dan surga terumbu karang terbaik di dunia dengan pemandangan spektakuler.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 4.500.000</div>
+              <div class="price-dur">DP 50%: Rp 2.250.000</div>
+            </div>
+            <a href="order.html?dest=raja_ampat" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Labuan Bajo -->
+      <article class="card reveal">
+        <div class="card-img dest-labuan">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🦎</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">4 Hari 3 Malam</div>
+          <h3 class="card-title">Labuan Bajo Komodo</h3>
+          <p class="card-desc">Petualangan melihat habitat kadal purba Komodo, Pink Beach, dan tracking panorama Pulau Padar.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 3.500.000</div>
+              <div class="price-dur">DP 50%: Rp 1.750.000</div>
+            </div>
+            <a href="order.html?dest=labuan_bajo" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lombok -->
+      <article class="card reveal">
+        <div class="card-img dest-lombok">
+          <span style="font-size:3.5rem;position:relative;z-index:1;">🌴</span>
+        </div>
+        <div class="card-body">
+          <div class="price-badge">3 Hari 2 Malam</div>
+          <h3 class="card-title">Lombok & Gili Islands</h3>
+          <p class="card-desc">Keindahan pantai Senggigi, Mandalika, dan keheningan suasana eksotis di Gili Trawangan & Meno.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">Rp 2.000.000</div>
+              <div class="price-dur">DP 50%: Rp 1.000.000</div>
+            </div>
+            <a href="order.html?dest=lombok" class="btn btn-primary btn-sm">Pesan</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ARMADA ==================== -->
+<section id="armada" style="background: var(--dark-card);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label"><i class="fas fa-car"></i> Fleet Collection</span>
+      <h2>Pilihan <span class="text-brand">Armada Mobil</span></h2>
+      <p>Kendaraan terawat, selalu wangi, AC prima, dan siap mengantar perjalanan Anda dengan tenang.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="cards-grid stagger-children">
+
+      <!-- Alphard -->
+      <article class="card reveal">
+        <div class="card-img vehicle-alphard">
+          <span style="font-size:4rem;position:relative;z-index:1;">🚗</span>
+        </div>
+        <div class="card-body">
+          <div class="vehicle-badge"><i class="fas fa-crown"></i> Luxury Class</div>
+          <h3 class="card-title">Toyota Alphard</h3>
+          <p class="card-desc">Kenyamanan eksekutif kelas utama. Dilengkapi captain seat elektrik, kabin hening, dan hiburan multimedia.</p>
+          <div class="vehicle-features">
+            <span class="feat-tag">6 Seat</span>
+            <span class="feat-tag">Captain Seat</span>
+            <span class="feat-tag">USB Charger</span>
+            <span class="feat-tag">Leather Interior</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">+Rp 350.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
+            </div>
+            <a href="order.html?armada=alphard" class="btn btn-secondary btn-sm">Pilih Mobil</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Hiace -->
+      <article class="card reveal">
+        <div class="card-img vehicle-hiace">
+          <span style="font-size:4rem;position:relative;z-index:1;">🚐</span>
+        </div>
+        <div class="card-body">
+          <div class="vehicle-badge"><i class="fas fa-users"></i> Group Class</div>
+          <h3 class="card-title">Hiace Commuter</h3>
+          <p class="card-desc">Pilihan utama wisata keluarga besar dan kantor. Kapasitas lega, suspensi empuk, dan bagasi yang luas.</p>
+          <div class="vehicle-features">
+            <span class="feat-tag">14 Seat</span>
+            <span class="feat-tag">Double Blower AC</span>
+            <span class="feat-tag">Bagasi Luas</span>
+            <span class="feat-tag">Reclining Seat</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">+Rp 500.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
+            </div>
+            <a href="order.html?armada=hiace" class="btn btn-secondary btn-sm">Pilih Mobil</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Fortuner -->
+      <article class="card reveal">
+        <div class="card-img vehicle-fortuner">
+          <span style="font-size:4rem;position:relative;z-index:1;">🚙</span>
+        </div>
+        <div class="card-body">
+          <div class="vehicle-badge"><i class="fas fa-mountain"></i> Adventure Class</div>
+          <h3 class="card-title">Toyota Fortuner</h3>
+          <p class="card-desc">SUV bertenaga tinggi untuk rute menanjak dan pegunungan seperti Bromo atau jalur pantai tersembunyi.</p>
+          <div class="vehicle-features">
+            <span class="feat-tag">7 Seat</span>
+            <span class="feat-tag">4x4 Ready</span>
+            <span class="feat-tag">High Ground Clearance</span>
+            <span class="feat-tag">AC Double</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="price-main">+Rp 400.000<small style="color:var(--gray-mid);font-size:.75rem;">/hari</small></div>
+            </div>
+            <a href="order.html?armada=fortuner" class="btn btn-secondary btn-sm">Pilih Mobil</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label"><i class="fas fa-star"></i> Reviews</span>
+      <h2>Pengalaman <span class="text-brand">Pelanggan Kami</span></h2>
+      <p>Kisah kepuasan perjalanan nyata dari para pelanggan setia LuxDrive Travel.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="testimonials-grid stagger-children">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Pesan Alphard untuk trip liburan ke Bali sekeluarga. Driver tepat waktu, ramah, dan sangat paham jalur wisata favorit tanpa macet!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AR</div>
+          <div>
+            <div class="author-name">Aulia Rahma</div>
+            <div class="author-loc">Jakarta • Bali Trip</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Sewa Hiace Commuter untuk acara kantor ke Jogja. Sangat nyaman, proses verifikasi DP cepat dan langsung diarahkan ke WA."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">BS</div>
+          <div>
+            <div class="author-name">Budi Santoso</div>
+            <div class="author-loc">Surabaya • Yogyakarta Trip</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Trip Bromo luar biasa! Fortuner-nya prima melibas tanjakan dan pasir. Pelayanan ramah bintang lima."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">CL</div>
+          <div>
+            <div class="author-name">Cindy Lestari</div>
+            <div class="author-loc">Malang • Bromo Trip</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA SECTION ==================== -->
+<section class="cta-section">
+  <div class="container">
+    <span class="section-label"><i class="fas fa-ticket-alt"></i> Instant Booking</span>
+    <h2>Siap Menikmati Liburan <span class="text-brand">Tanpa Ribet?</span></h2>
+    <p>Pilih tanggal keberangkatan Anda, bayar DP 50% dengan aman, dan konfirmasi langsung ke WhatsApp customer service kami.</p>
+    <div class="cta-actions">
+      <a href="order.html" class="btn btn-primary btn-lg">
+        <i class="fas fa-ticket-alt"></i> Buka Menu Order
+      </a>
+      <a href="https://wa.me/62895629466956?text=Halo%20LuxDrive%2C%20saya%20ingin%20tanya%20seputar%20paket%20travel" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+        <i class="fab fa-whatsapp text-brand"></i> Hubungi WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
+          <span>LuxDrive <span>Travel</span></span>
+        </a>
+        <p>Solusi perjalanan darat premium dan wisata keluarga terbaik ke destinasi impian di seluruh Indonesia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/62895629466956" target="_blank" rel="noopener" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Menu Utama</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="#destinasi">Destinasi</a></li>
+          <li><a href="#armada">Armada</a></li>
+          <li><a href="order.html">Order Tiket</a></li>
+          <li><a href="tentang kami.html">Tentang Kami</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Destinasi Populer</h4>
+        <ul class="footer-links">
+          <li><a href="order.html?dest=bali">Bali</a></li>
+          <li><a href="order.html?dest=yogyakarta">Yogyakarta</a></li>
+          <li><a href="order.html?dest=bromo">Bromo</a></li>
+          <li><a href="order.html?dest=raja_ampat">Raja Ampat</a></li>
+          <li><a href="order.html?dest=labuan_bajo">Labuan Bajo</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak Resmi</h4>
+        <ul class="footer-contact">
+          <li>
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <strong>WhatsApp CS:</strong><br>
+              <a href="https://wa.me/62895629466956" target="_blank" rel="noopener" style="color:var(--brand);">0895-6294-66956</a>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email:</strong><br>
+              info@luxdrivetravel.id
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>Jakarta Selatan, Indonesia</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2024 <span>LuxDrive Travel</span>. All rights reserved.</p>
+      <p>Theme: Modern Dark Neo Style • <span style="color:var(--brand);">#E7F161</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

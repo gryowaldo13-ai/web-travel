@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Tiket Perjalanan — LuxDrive Travel</title>
+  <meta name="description" content="Formulir resmi pemesanan tiket travel mobil LuxDrive Travel. Wajib pilih tanggal, DP 50%, dan kirimkan bukti transfer." />
+  
+  <!-- Google Fonts: Red Hat Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="LuxDrive Travel">
+        <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
+        <span>LuxDrive <span>Travel</span></span>
+      </a>
+
+      <!-- MENU UTAMA SEJAJAR -->
+      <ul class="nav-menu" id="navMenu" role="menubar">
+        <li role="none"><a href="index.html" class="nav-link" role="menuitem"><i class="fas fa-home"></i> Beranda</a></li>
+        <li role="none"><a href="index.html#destinasi" class="nav-link" role="menuitem"><i class="fas fa-compass"></i> Destinasi</a></li>
+        <li role="none"><a href="index.html#armada" class="nav-link" role="menuitem"><i class="fas fa-car"></i> Armada</a></li>
+        <li role="none"><a href="order.html" class="nav-link active" role="menuitem"><i class="fas fa-ticket-alt"></i> Order</a></li>
+        <li role="none"><a href="tentang kami.html" class="nav-link" role="menuitem"><i class="fas fa-users"></i> Tentang Kami</a></li>
+      </ul>
+
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== ORDER SECTION ==================== -->
+<main class="order-section">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="section-header reveal" style="margin-bottom: 2.5rem;">
+      <span class="section-label"><i class="fas fa-ticket-alt"></i> Official Booking Pass</span>
+      <h2>Formulir <span class="text-brand">Pemesanan Travel</span></h2>
+      <p>Lengkapi data perjalanan Anda. Pelanggan diwajibkan memilih tanggal, membayar DP 50%, dan mengunggah bukti screenshot transfer sebelum order dapat diproses.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="order-grid">
+
+      <!-- ======= FORM ORDER ======= -->
+      <div class="order-form-wrap reveal">
+        <h2><i class="fas fa-calendar-check text-brand"></i> Detail Perjalanan</h2>
+        <p>Field dengan tanda <span class="req" style="color:var(--brand);font-weight:bold;">*</span> wajib diisi lengkap.</p>
+
+        <form id="orderForm" novalidate>
+
+          <!-- Row 1: Nama & WhatsApp -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nama">Nama Lengkap Pemesan <span class="req">*</span></label>
+              <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama lengkap Anda..." required maxlength="100" autocomplete="name" />
+              <div class="form-error" id="namaError">Nama lengkap wajib diisi (minimal 3 karakter)</div>
+            </div>
+
+            <div class="form-group">
+              <label for="whatsapp">Nomor WhatsApp Aktif <span class="req">*</span></label>
+              <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="Contoh: 081234567890" required maxlength="15" autocomplete="tel" />
+              <div class="form-error" id="whatsappError">Nomor WhatsApp wajib valid (format 08xx atau 62xx)</div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Alamat Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="nama@email.com" required maxlength="150" autocomplete="email" />
+            <div class="form-error" id="emailError">Alamat email wajib diisi dengan format valid</div>
+          </div>
+
+          <!-- Row 2: Destinasi & Armada -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="destinasi">Pilih Destinasi Wisata <span class="req">*</span></label>
+              <select id="destinasi" name="destinasi" class="form-control" required>
+                <option value="">— Pilih Destinasi —</option>
+                <option value="bali" data-harga="2500000" data-hari="3">🏖️ Bali (Rp 2.500.000 / 3 hari)</option>
+                <option value="yogyakarta" data-harga="1800000" data-hari="2">🏛️ Yogyakarta (Rp 1.800.000 / 2 hari)</option>
+                <option value="bromo" data-harga="1500000" data-hari="2">🌋 Bromo (Rp 1.500.000 / 2 hari)</option>
+                <option value="raja_ampat" data-harga="4500000" data-hari="5">🤿 Raja Ampat (Rp 4.500.000 / 5 hari)</option>
+                <option value="labuan_bajo" data-harga="3500000" data-hari="4">🦎 Labuan Bajo (Rp 3.500.000 / 4 hari)</option>
+                <option value="lombok" data-harga="2000000" data-hari="3">🌴 Lombok (Rp 2.000.000 / 3 hari)</option>
+              </select>
+              <div class="form-error" id="destinasiError">Silakan pilih destinasi tujuan</div>
+            </div>
+
+            <div class="form-group">
+              <label for="armada">Pilih Jenis Armada <span class="req">*</span></label>
+              <select id="armada" name="armada" class="form-control" required>
+                <option value="">— Pilih Armada —</option>
+                <option value="alphard" data-biaya="350000">🚗 Toyota Alphard (VIP Luxury)</option>
+                <option value="hiace" data-biaya="500000">🚐 Hiace Commuter (Group Trip)</option>
+                <option value="fortuner" data-biaya="400000">🚙 Toyota Fortuner (Adventure SUV)</option>
+              </select>
+              <div class="form-error" id="armadaError">Silakan pilih jenis mobil armada</div>
+            </div>
+          </div>
+
+          <!-- Row 3: Tanggal Keberangkatan & Kepulangan (WAJIB) -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="tglBerangkat"><i class="fas fa-calendar-alt text-brand"></i> Tanggal Berangkat <span class="req">*</span></label>
+              <input type="date" id="tglBerangkat" name="tglBerangkat" class="form-control" required />
+              <div class="form-error" id="tglBerangkatError">Wajib memilih tanggal keberangkatan (minimal hari ini)</div>
+            </div>
+
+            <div class="form-group">
+              <label for="tglPulang"><i class="fas fa-calendar-check text-brand"></i> Tanggal Pulang <span class="req">*</span></label>
+              <input type="date" id="tglPulang" name="tglPulang" class="form-control" required />
+              <div class="form-error" id="tglPulangError">Wajib memilih tanggal kepulangan (setelah tanggal berangkat)</div>
+            </div>
+          </div>
+
+          <!-- Jumlah Penumpang -->
+          <div class="form-group">
+            <label for="penumpang">Jumlah Penumpang (Orang) <span class="req">*</span></label>
+            <input type="number" id="penumpang" name="penumpang" class="form-control" placeholder="1" min="1" max="20" value="1" required />
+            <div class="form-error" id="penumpangError">Jumlah penumpang valid: 1 s.d. 20 orang</div>
+          </div>
+
+          <!-- Titik Penjemputan -->
+          <div class="form-group">
+            <label for="titikJemput">Alamat Lengkap Titik Penjemputan <span class="req">*</span></label>
+            <textarea id="titikJemput" name="titikJemput" class="form-control" placeholder="Alamat rumah, hotel, bandara, atau stasiun penjemputan..." required rows="3" maxlength="500"></textarea>
+            <div class="form-error" id="titikJemputError">Titik penjemputan wajib diisi lengkap (minimal 10 karakter)</div>
+          </div>
+
+          <!-- Keterangan -->
+          <div class="form-group">
+            <label for="keterangan">Kebutuhan Khusus / Catatan <span style="color:var(--gray-mid);font-size:.78rem;">(Opsional)</span></label>
+            <textarea id="keterangan" name="keterangan" class="form-control" placeholder="Contoh: request baby car seat, preferensi rute, bagasi ekstra..." rows="2" maxlength="500"></textarea>
+          </div>
+
+          <!-- ===== INFORMASI REKENING PEMBAYARAN DP 50% ===== -->
+          <div style="margin: 2rem 0 1.5rem;">
+            <label style="display:block;font-size:.88rem;font-weight:800;color:var(--white);margin-bottom:.8rem;">
+              <i class="fas fa-university text-brand"></i> Rekening Resmi Pembayaran DP 50%
+            </label>
+
+            <!-- BCA -->
+            <div class="rekening-item" onclick="copyNoRek('1234567890','BCA')" title="Klik untuk salin no rekening">
+              <div class="rek-logo">BCA</div>
+              <div class="rek-info">
+                <div class="rek-bank">Bank BCA</div>
+                <div class="rek-num">1234567890</div>
+                <div class="rek-name">a/n LuxDrive Travel</div>
+              </div>
+              <button class="rek-copy" type="button" aria-label="Salin nomor BCA"><i class="fas fa-copy"></i></button>
+            </div>
+
+            <!-- BRI -->
+            <div class="rekening-item" onclick="copyNoRek('1234567890','BRI')" title="Klik untuk salin no rekening">
+              <div class="rek-logo">BRI</div>
+              <div class="rek-info">
+                <div class="rek-bank">Bank BRI</div>
+                <div class="rek-num">1234567890</div>
+                <div class="rek-name">a/n LuxDrive Travel</div>
+              </div>
+              <button class="rek-copy" type="button" aria-label="Salin nomor BRI"><i class="fas fa-copy"></i></button>
+            </div>
+
+            <!-- E-Wallet -->
+            <div class="rekening-item" onclick="copyNoRek('0895629466956','GoPay/OVO/DANA')" title="Klik untuk salin nomor e-wallet">
+              <div class="rek-logo">WALLET</div>
+              <div class="rek-info">
+                <div class="rek-bank">GoPay / OVO / DANA</div>
+                <div class="rek-num">0895-6294-66956</div>
+                <div class="rek-name">a/n LuxDrive Travel</div>
+              </div>
+              <button class="rek-copy" type="button" aria-label="Salin no e-wallet"><i class="fas fa-copy"></i></button>
+            </div>
+
+            <div style="background:rgba(231,241,97,0.08);border:1px solid rgba(231,241,97,0.25);border-radius:var(--radius-sm);padding:0.8rem 1rem;font-size:0.82rem;color:var(--gray-light);margin-top:0.8rem;box-sizing:border-box;width:100%;word-break:break-word;line-height:1.45;">
+              <i class="fas fa-info-circle text-brand"></i>
+              Transfer sejumlah nominal <strong style="color:var(--brand);">DP 50%</strong> yang tertera pada kartu kalkulasi, lalu upload screenshot bukti transfer Anda di bawah ini.
+            </div>
+          </div>
+
+          <!-- ===== UPLOAD BUKTI TRANSFER SCREENSHOT (WAJIB) ===== -->
+          <div class="form-group">
+            <label style="word-break:break-word;"><i class="fas fa-receipt text-brand"></i> Bukti Screenshot Transfer DP 50% <span class="req">* (Wajib)</span></label>
+            
+            <div class="upload-zone" id="uploadZone" role="button" tabindex="0">
+              <input type="file" id="buktiTransfer" name="buktiTransfer" accept="image/jpeg,image/png,image/webp" />
+              <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+              <p>Klik atau seret screenshot bukti transfer ke sini</p>
+              <small>Format: JPG, PNG, WEBP • Ukuran Maksimal: 5 MB</small>
+            </div>
+
+            <!-- Preview Image -->
+            <div class="upload-preview" id="uploadPreview">
+              <img id="previewImg" src="" alt="Screenshot bukti transfer" />
+              <div class="upload-preview-info">
+                <span id="fileName" style="font-size:0.82rem;color:var(--white);font-weight:600;"></span>
+                <button type="button" class="remove-upload" id="removeFile">
+                  <i class="fas fa-trash"></i> Hapus File
+                </button>
+              </div>
+            </div>
+
+            <div class="form-error" id="buktiError" style="font-size:0.82rem;font-weight:700;">
+              ⚠️ Anda belum mengunggah bukti transfer! Order TIDAK BISA diproses tanpa bukti screenshot DP.
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div style="margin-top: 1.8rem;">
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.6rem;" id="submitBtn">
+              <i class="fab fa-whatsapp" style="font-size:1.3rem;"></i> <span>Kirim Order ke WhatsApp</span>
+            </button>
+            <div style="text-align:center;font-size:0.8rem;color:var(--brand);margin-top:0.5rem;font-weight:700;">
+              <i class="fas fa-check-circle"></i> WhatsApp Resmi: 0895-6294-66956
+            </div>
+            <p style="text-align:center;font-size:0.76rem;color:var(--gray-mid);margin-top:0.6rem;line-height:1.4;">
+              <i class="fas fa-lock"></i> Data terenkripsi & diteruskan langsung bersama konfirmasi pembayaran DP 50%.
+            </p>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ======= SIDEBAR BOARDING PASS CALCULATOR ======= -->
+      <aside class="order-sidebar">
+
+        <!-- Boarding Pass Style Calculator -->
+        <div class="sidebar-card reveal" style="border: 1px dashed rgba(231, 241, 97, 0.4);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+            <h4><i class="fas fa-calculator text-brand"></i> Boarding Pass</h4>
+            <span style="font-size:0.75rem;padding:0.25rem 0.6rem;background:var(--brand);color:#000;font-weight:900;border-radius:var(--radius-pill);">DP 50%</span>
+          </div>
+
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>Destinasi Pilihan:</span>
+              <strong id="calcDest" style="color:var(--white);">—</strong>
+            </div>
+            <div class="price-row">
+              <span>Armada Mobil:</span>
+              <strong id="calcArmada" style="color:var(--white);">—</strong>
+            </div>
+            <div class="price-row">
+              <span>Durasi Trip:</span>
+              <strong id="calcDurasi" style="color:var(--white);">—</strong>
+            </div>
+            <div class="price-row">
+              <span>Tarif Paket Dasar:</span>
+              <strong id="calcPaket" style="color:var(--white);">—</strong>
+            </div>
+            <div class="price-row">
+              <span>Tambahan Armada:</span>
+              <strong id="calcBiayaArmada" style="color:var(--white);">—</strong>
+            </div>
+          </div>
+
+          <div class="price-total-row">
+            <span>Total Tagihan:</span>
+            <span id="calcTotal" class="text-white">—</span>
+          </div>
+
+          <!-- DP Box -->
+          <div class="dp-row">
+            <div>
+              <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:rgba(0,0,0,0.8);">Wajib Bayar Sekarang:</div>
+              <div style="font-size:1.15rem;font-weight:900;color:#000;">DP 50% Transfer</div>
+            </div>
+            <span id="calcDP" style="font-size:1.35rem;font-weight:900;color:#000;">—</span>
+          </div>
+
+          <!-- Barcode simulation -->
+          <div style="margin-top:1.4rem;padding-top:1.2rem;border-top:1px dashed var(--dark-border);text-align:center;">
+            <div style="font-size:0.7rem;color:var(--gray-mid);letter-spacing:2px;margin-bottom:0.5rem;">LUXDRIVE-PASS-VERIFIED</div>
+            <div class="mockup-barcode" style="justify-content:center;">
+              <div class="barcode-bar w-3"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-3"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-3"></div>
+              <div class="barcode-bar"></div>
+              <div class="barcode-bar w-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aturan & Ketentuan -->
+        <div class="sidebar-card reveal">
+          <h4><i class="fas fa-shield-alt text-brand"></i> Kebijakan Pemesanan</h4>
+          <ul style="font-size:0.86rem;color:var(--gray-light);display:flex;flex-direction:column;gap:0.7rem;">
+            <li style="display:flex;gap:0.6rem;"><i class="fas fa-check-circle text-brand" style="margin-top:0.2rem;"></i> Wajib melampirkan bukti transfer DP 50%</li>
+            <li style="display:flex;gap:0.6rem;"><i class="fas fa-check-circle text-brand" style="margin-top:0.2rem;"></i> Pelunasan sisa 50% dilakukan H-1 atau saat penjemputan</li>
+            <li style="display:flex;gap:0.6rem;"><i class="fas fa-check-circle text-brand" style="margin-top:0.2rem;"></i> Pembatalan bebas biaya maksimal H-3 sebelum jadwal</li>
+            <li style="display:flex;gap:0.6rem;"><i class="fas fa-check-circle text-brand" style="margin-top:0.2rem;"></i> Layanan hotline WhatsApp aktif 24 jam</li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon"><i class="fas fa-car-side"></i></div>
+          <span>LuxDrive <span>Travel</span></span>
+        </a>
+        <p>Mitra perjalanan travel mobil terpercaya di seluruh Indonesia.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Menu Utama</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="index.html#destinasi">Destinasi</a></li>
+          <li><a href="index.html#armada">Armada</a></li>
+          <li><a href="order.html">Order</a></li>
+          <li><a href="tentang kami.html">Tentang Kami</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak Cepat</h4>
+        <ul class="footer-contact">
+          <li><i class="fab fa-whatsapp"></i><a href="https://wa.me/62895629466956" target="_blank" rel="noopener" style="color:var(--brand);">0895-6294-66956</a></li>
+          <li><i class="fas fa-envelope"></i>info@luxdrivetravel.id</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 <span>LuxDrive Travel</span>. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== MODAL KONFIRMASI ==================== -->
+<div class="modal-overlay" id="modalKonfirmasi" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-icon">📲</div>
+    <h3 id="modalTitle">Data Siap Dikirim ke WhatsApp!</h3>
+    <p>
+      Format pemesanan Anda beserta bukti pembayaran DP 50% telah disiapkan.<br><br>
+      <strong style="color:var(--brand);">Langkah Terakhir:</strong> Anda akan otomatis dialihkan ke WhatsApp resmi <strong>0895-6294-66956</strong>. Pastikan kirimkan juga file gambar screenshot transfer Anda pada ruang chat WhatsApp tersebut.
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnLanjutWA">
+        <i class="fab fa-whatsapp"></i> Buka WhatsApp Sekarang
+      </button>
+      <button class="btn btn-outline" id="btnTutupModal">
+        Kembali
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="../assets/js/security.js"></script>
+<script src="../assets/js/order.js"></script>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
